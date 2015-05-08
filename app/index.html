@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>PFK Angular Test App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/typicons/src/font/typicons.css" />
+    <link rel="stylesheet" href="bower_components/typicons/src/font/typicons.min.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/buttons.css">
+    <link rel="stylesheet" href="styles/rockerswitch.css">
+    <link rel="stylesheet" href="styles/hovermenubutton.css">
+    <link rel="stylesheet" href="styles/slidermenubutton.css">
+    <link rel="stylesheet" href="styles/starfield.css">
+    <link rel="stylesheet" href="styles/rangeselector.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-cloak ng-app="angulardemoApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser.
+        Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve
+        your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ng-controller="NavbarCtrl" class="nav">
+      <ul>
+        <li nohover> PFK </li>
+        <li> <a href="http://www.pfk.org"> pfk.org </a> </li>
+        <li ng-repeat="view in views" ng-init="index = view.index"
+            ng-class="{active:viewNum==$index}">
+          <a ng-href="#{{view.path}}" ng-click="updateView($index)">
+            {{view.view}}
+          </a>
+        </li>
+      </ul>
+    </div> <!-- nav -->
+
+    <div class="container">
+      <div class="leftSide"></div>
+      <div id="viewArea" class="viewArea">
+        <ng-view></ng-view>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>
+        <span class="typcn typcn-arrow-right-thick"></span>
+        PFK
+        <span class="typcn typcn-arrow-left-thick"></span>
+        the future was scheduled for yesterday, but the schedule slipped
+      </p>
+    </div>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/utilities.js"></script>
+    <script src="scripts/directives/rockerswitch.js"></script>
+    <script src="scripts/directives/slidermenu.js"></script>
+    <script src="scripts/directives/hovermenu.js"></script>
+    <script src="scripts/directives/rangeselector.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/controllers/buttons.js"></script>
+    <script src="scripts/controllers/starfield.js"></script>
+    <script src="scripts/controllers/navbar.js"></script>
+    <!-- endbuild -->
+  </body>
+  <!--
+      Local Variables:
+      mode: html
+      indent-tabs-mode: nil
+      tab-width: 8
+      End:
+    -->
+</html>

@@ -1,0 +1,131 @@
+
+@import "defs.scss";
+
+$rangeSelectorHeight: 45px;
+$rangeSelectorWidth: 600px;
+$rangeSelectorBg: #282828;
+$windowBg:  #383858;
+$windowSliderBg:  rgba(70,70,100,0.7);
+$mouseLineColor: #ffffff;
+$tickColor: #808080;
+
+.pfkRangeSelector {
+    position:relative;
+    height:$rangeSelectorHeight;
+    width:$rangeSelectorWidth;
+    top:0px;
+    left:0px;
+    background:$rangeSelectorBg;
+    box-shadow:inset 0 0 18px 9px rgba(255, 255, 255, 0.15);
+    z-index:10;
+    overflow:hidden;
+
+    .mousePosSensor {
+        display:block;
+        position:absolute;
+        height:$rangeSelectorHeight;
+        width:$rangeSelectorWidth;
+        top:0px;
+        left:0px;
+        z-index:30;
+    }
+
+    .mousePosLineInd {
+        display:block;
+        position:absolute;
+        background:$mouseLineColor;
+        height:$rangeSelectorHeight;
+        width:1px;
+        top:0px;
+        left:0px; /* code moves this */
+        z-index:20;
+        transition:opacity 0.3s;
+    }
+
+    .sliderWindow {
+        position:absolute;
+        height:45px;
+        width:50px;
+        top:0px;
+        left:25px;
+        z-index:20;
+        background:$windowBg;
+        box-shadow:inset 0 0 18px 5px rgba(255,255,255,0.2);
+        transition:left 0.3s;
+    }
+
+    .movingSliderWindow {
+        display:block;
+        position:absolute;
+        height:45px;
+        width:50px;
+        top:0px;
+        left:25px;
+        z-index:30;
+        background:$windowSliderBg;
+        box-shadow:inset 0 0 18px 5px rgba(255,255,255,0.5);
+        transition:opacity 0.3s;
+    }
+
+    .mousePosIndicator {
+        display:block;
+        position:absolute;
+        height:20px;
+        width:35px;
+        top:0px;
+        left:0px; /* code moves this */
+        z-index:25;
+        transition:opacity 0.3s;
+    }
+
+    .dragRangeWindow {
+        position:absolute;
+        height:45px;
+        width:50px;
+        top:0px;
+        left:25px;
+        z-index:15;
+        background:$windowBg;
+        box-shadow:inset 0 0 18px 5px rgba(255,255,255,0.2);
+    }
+
+    .dragStartIndicator {
+        display:block;
+        position:absolute;
+        height:20px;
+        width:35px;
+        bottom:0px;
+        left:0px; /* code moves this */
+        z-index:25;
+        text-align:right;
+    }
+
+    .dragEndIndicator {
+        display:block;
+        position:absolute;
+        height:20px;
+        width:35px;
+        bottom:0px;
+        left:0px; /* code moves this */
+        z-index:25;
+    }
+
+    .tickIndicator {
+        display:block;
+        position:absolute;
+        height:$rangeSelectorHeight;
+        width:1px;
+        background: $tickColor;
+        top:0px;
+        left:0px; /* code moves this */
+        z-index:25;
+    }
+}
+
+/*
+  Local Variables:
+  mode: css
+  indent-tabs-mode: nil
+  tab-width: 8
+  End:
+*/

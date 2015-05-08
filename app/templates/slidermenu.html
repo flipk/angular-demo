@@ -1,0 +1,23 @@
+<div class="sliderMenu">
+  <!-- note for this to work, the name="" must be the same
+       for every input in this group, and different from all
+       other groups; this will be a problem that needs solving
+       if this is to become an angular directive. -->
+  <input ng-repeat-start="choice in choices"
+         type="radio" name="{{name}}" id="{{name}}{{$index}}"
+         class="radio" ng-model="value.selection" ng-value="$index"
+         ng-change="onChange()"/>
+  <div ng-repeat-end class="list-item">
+    <label for="{{name}}{{$index}}">
+      {{$index}}: {{choice}}
+    </label>
+  </div>
+  <div class="slider"></div>
+  <!--
+      Local Variables:
+      mode: html
+      indent-tabs-mode: nil
+      tab-width: 8
+      End:
+    -->
+</div>

@@ -1,0 +1,93 @@
+
+@import "defs.scss";
+
+$bgColor: #101820;
+$textColor: #d0d0d0;
+$menuBgColor: #101010;
+$menuBgHoverColor: #404040;
+$menuFgColor: #c0c0c0;
+$menuBorderColor: #c0c0c0;
+
+.sliderMenu {
+    height:300px;
+    width:250px;
+    position:relative;
+    padding:1px;
+    background: $menuBgColor;
+    color:$textColor;
+    @include user-select-none();
+    border-radius:15px;
+
+    input {
+        /* the input is bound to the label tag,
+        // so no need for it to be displayed. */
+        display:none;
+    }
+
+    .slider{
+        width:225px;
+        border:10px solid $menuBorderColor;
+        height:45px;
+        position:absolute;
+        left:4px;
+        top:5px; /* this gets overridden by the
+                 // slider-checked-item mixin below */
+        transition: top 0.3s; /* gentle motion */
+        border-radius: 15px;
+        /* this gives the slider the appearance
+        // of having a lens or window. */
+        background-color: rgba(255,255,255,0.1);
+    }
+
+    label {
+        display:block; 
+        position:absolute; 
+        z-index:999; 
+        height:100%; 
+        width:100%; 
+        cursor:pointer;
+    }
+
+    .list-item{
+        display:block;
+        float:none;
+        width:100%;
+        height:42px;
+        line-height:40px;
+        margin:15px 0;
+        text-align:center;
+        font: bold 1.5em/1.8 "Helvetica";
+        border-radius:40px;
+/*        @include do-filter(blur(1px)); */
+    }
+
+    @mixin slider-checked-item($name,$item,$pos) {
+        ##{$name}#{$item}:checked ~ .slider {
+            top:$pos;
+        }
+        ##{$name}#{$item}:checked ~ #div_input_#{$item} {
+            -webkit-filter:none;
+        }
+    } /* end mixin slider-checked-item */
+
+
+    /* note this is hardcoded to support no more than 5 items */
+    @mixin five-checked-items($name) {
+        @include slider-checked-item($name,0,5px);
+        @include slider-checked-item($name,1,65px);
+        @include slider-checked-item($name,2,122px);
+        @include slider-checked-item($name,3,178px);
+        @include slider-checked-item($name,4,235px);
+    }
+
+    @include five-checked-items(leftDemoMenu)
+
+}
+
+/*
+  Local Variables:
+  mode: css
+  indent-tabs-mode: nil
+  tab-width: 8
+  End:
+*/

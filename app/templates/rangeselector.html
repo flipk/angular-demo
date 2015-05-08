@@ -1,0 +1,47 @@
+<div class="pfkRangeSelector">
+  <!-- this is the normal slider indicator -->
+  <div ng-show="displaySliderWindow" class="sliderWindow"
+       ng-style="{left:sliderWindowLeft,width:sliderWindowWidth}">
+  </div>
+  <!-- when the slider is being dragged, this is the one that moves -->
+  <div ng-show="displayMovingSliderWindow" class="movingSliderWindow"
+       ng-style="{left:movingSliderWindowLeft,width:sliderWindowWidth}">
+  </div>
+  <!-- invisible div on top that tracks the mouse -->
+  <div ng-show="displayMousePosSensor" class="mousePosSensor">
+  </div>
+  <!-- 1px wide line indicator of the mouse position during range dragging -->
+  <div class="mousePosLineInd"
+       ng-style="{left:mousePosLineIndPos,opacity:displayMousePosLineInd}">
+  </div>
+  <!-- display the integer tick number next to the above line -->
+  <div class="mousePosIndicator"
+       ng-style="{left:mousePosTickIndPos,opacity:displayMousePosInd}">
+    {{mousePosTickNumber}}
+  </div>
+  <!-- when dragging out a range, this is the box that resizes -->
+  <div ng-show="displayDragRangeWindow" class="dragRangeWindow"
+       ng-style="{left:dragRangeWindowLeft,width:dragRangeWindowWidth}">
+  </div>
+  <!-- display integer tick number next to left edge of drag range -->
+  <div ng-show="displayDragStartIndicator" class="dragStartIndicator"
+       ng-style="{left:dragStartIndicatorPos}">
+    {{dragStartTickNumber}}
+  </div>
+  <!-- display integer tick number next to right edge of drag range -->
+  <div ng-show="displayDragEndIndicator" class="dragEndIndicator"
+       ng-style="{left:dragEndIndicatorPos}">
+    {{dragEndTickNumber}}
+  </div>
+  <!-- highlight the individual ticks -->
+  <div ng-repeat="tickPos in tickPositions" class="tickIndicator"
+       ng-style="{left:tickPos}">
+  </div>
+  <!--
+      Local Variables:
+      mode: html
+      indent-tabs-mode: nil
+      tab-width: 8
+      End:
+    -->
+</div>

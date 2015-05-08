@@ -1,0 +1,147 @@
+
+@import "defs.scss";
+
+$menuBgColor: #101010;
+$menuBgHoverColor: #404040;
+$menuBorderColor: #c0c0c0;
+
+/* this menu works by putting each item in a div, then
+// placing all those divs on top of each other with only
+// one with visible opacity. mouse :hover causes all the
+// divs to move into different positions lining up as a
+// menu. :hover over an item changes its background to
+// highlight the item. selection appends a left-arrow 
+// to the end of the selected item. removing :hover 
+// causes the menu to collapse back into the original
+// space with only the selected item visible again. */
+.hoverMenu {
+    @include user-select-none();
+    width:185px;
+    height:24px;
+    margin-top:10px;
+
+    border-width:3px;
+    border-color:$menuBorderColor;
+    border-style:solid;
+    border-radius:10px;
+    transition:top 1s;
+
+    input {
+      /* dont display the stupid radio button.
+      // the input is bound to a corresponding label. */
+        display:none;
+    }
+    &:hover > .list-item {
+        /* hovering over the .hoverMenu causes all
+        // the list items to become visible. */
+        opacity:1;
+    }
+
+$hoverMenuItemHeight: 22px;
+
+@mixin hover-move-item($name,$divnum) {
+  /* hovering over the .hoverMenu parent div (which expands
+  // to contain all the divs after they move into position)
+  // also causes each listItem (identified by "div_<number>"
+  // id strings) to move down to their in-order positions. */
+    &:hover > #div_#{$name}#{$divnum} {
+        top:$hoverMenuItemHeight * $divnum;
+        background-color:$menuBgColor;
+    }
+  /* hovering over the listItem child causes that child to
+  // highlight (change bg color) */
+    &:hover > #div_#{$name}#{$divnum}:hover {
+        background-color:$menuBgHoverColor;
+    }
+  /* if an item is checked (selected by the radio input)
+  // then its opacity is always 1, so it is visible within
+  // the containing oval (when not hovering). note the
+  // default opacity of listItem is 0 so none of them are
+  // visible unless one of these rules is active. */
+    ##{$name}#{$divnum}:checked ~ #div_#{$name}#{$divnum} {
+        opacity:1;
+    }
+  /* the checked item also gets an arrow. i wanted to put
+  // in the typicon arrow-right, but that was going to be
+  // a pain to do in codepen, so im using '<' instead. */
+    ##{$name}#{$divnum}:checked ~ #div_#{$name}#{$divnum}::after {
+        font-family: 'typicons';
+        font-style: normal;
+        font-weight: normal;
+        content: '\e00e';
+    }
+} /* end mixin hover-move-item */
+
+/* note this is hardcoded to support no more than 11 items. */
+@mixin eleven-hover-move-items($name) {
+    @include hover-move-item($name,0);
+    @include hover-move-item($name,1);
+    @include hover-move-item($name,2);
+    @include hover-move-item($name,3);
+    @include hover-move-item($name,4);
+    @include hover-move-item($name,5);
+    @include hover-move-item($name,6);
+    @include hover-move-item($name,7);
+    @include hover-move-item($name,8);
+    @include hover-move-item($name,9);
+    @include hover-move-item($name,10);
+}
+
+@include eleven-hover-move-items(rightDemoMenu);
+
+    .list-item {
+      /* default position puts all items
+      // right on top of each other. */
+        position:absolute;
+        top:2px;
+        left:0px;
+        width:180px;
+        height:100%;
+        margin:0px;
+        padding:0px;
+        padding-left:5px;
+        border:2px;
+        border-radius:0px;
+        opacity:0;
+        z-index:100; /* put on top of other objects */
+        transition:top 0.3s, opacity 0.5s;
+        @include user-select-none();
+        &:first-of-type {
+          /* when expanded, the menu has nice
+          // rounded corners on the top and
+          // bottom, but the middle items are
+          // square and interlocked. */
+            border-top-left-radius:10px;
+            border-top-right-radius:10px;
+        }
+        &:last-of-type {
+            border-bottom-left-radius:10px;
+            border-bottom-right-radius:10px;
+        }
+    }
+
+  /* the way you bind an <input id="something"> to a bunch of
+  // clickable text is to use <label for="something">,
+  // so this rule makes the label cover the text.
+  // i wanted to make the entire listItem div clickable,
+  // but to do that the listItem div would have to be
+  // inside the label instead of the other way round.
+  // unfortunately if i did that, the "~" (sibling)
+  // and ">" (child) selectors above wouldnt work.
+  // so until i figure out how to work around that,
+  // only the text portion of a menu entry is clickable. */
+    label {
+        height:100%;
+        width:100%;
+        @include user-select-none();
+        cursor:pointer;
+    }
+}
+
+/*
+  Local Variables:
+  mode: css
+  indent-tabs-mode: nil
+  tab-width: 8
+  End:
+*/

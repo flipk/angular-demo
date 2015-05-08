@@ -1,0 +1,143 @@
+
+@import "defs.scss";
+
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 200;
+    src: url(../font/SourceCodePro-Regular.ttf) format('truetype'),
+         url(../font/SourceCodePro-Regular.ttf.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Campton Book';
+    font-style:normal;
+    font-weight:400;
+    src: url(../font/campton.book-webfont.woff) format('woff');
+}
+
+html, body {
+    position:relative;
+    display:block;
+    width:100%;
+    height:100%;
+    color:white;
+    background-color:$bgColor;
+    font-family: 'Source Code Pro';
+}
+
+div {
+    position:relative;
+    display:block;
+}
+
+body {
+    margin:0;
+    padding: 0;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    @include user-select-none();
+}
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+.nav {
+    order:1;
+    flex-grow:0;
+    flex-shrink:0;
+    height:$navHeight;
+/*    font-family: museo-sans, sans-serif; */
+    font-family: 'Campton Book';
+    font-size: 21px;
+    color:#c0c0c0;
+    background: $navBgColor;
+    transition: background 0.3s;
+
+    ul {
+        padding-left:5px;
+        margin-top:5px;
+        margin-bottom:0px;
+    }
+    .active a {
+        color:#ffffff;
+    }
+    .active {
+        border-bottom-color:red;
+        border-bottom-style:solid;
+        border-bottom-width:5px;
+    }
+    a {
+        color:#c0c0c0;
+        text-decoration:none; /* dont put underlines */
+        outline-style:none; /* dont put a box around it when you click it */
+    }
+    li:first-child {
+        font-size:30px;
+        margin-right:40px;
+        padding:0px;
+    }
+    li {
+        display:inline-block;
+        transition:background 0.3s;
+        padding-right:15px;
+        padding-left:15px;
+    }
+    li[nohover]:hover {
+        background:$navBgColor;
+    }
+    li:hover {
+        background:$navBgHoverColor;
+    }
+}
+
+.container {
+    order:2;
+    flex-grow:1;
+    flex-shrink:1;
+    margin:0px;
+    display:flex;
+    flex-direction:row;
+    align-items:stretch;
+
+    .leftSide {
+        order:1;
+        flex-grow:0;
+        flex-shrink:0;
+        width:35px;
+        background:$navBgColor;
+    }
+    .viewArea {
+        order:2;
+        flex-grow:1;
+        flex-shrink:1;
+        margin:5px;
+        border-style:solid;
+        border-width:3px;
+        border-color:$navBgColor;
+        border-radius:10px;
+        padding:5px;
+    }
+}
+
+/* Custom page footer */
+.footer {
+    order:3;
+    flex-grow:0;
+    flex-shrink:0;
+    color: #777;
+    border-top: 1px solid $footerBorder;
+}
+
+/*
+  Local Variables:
+  mode: css
+  indent-tabs-mode: nil
+  tab-width: 8
+  End:
+*/

@@ -1,0 +1,70 @@
+
+@import "defs.scss";
+
+.buttonView {
+    height:100%;
+    
+    .firstButton {
+        .firstButtonLabel {
+            float:left;
+        }
+        .firstButton {
+        }
+    }
+
+    .secondGroup {
+        height:400px;
+        display:flex;
+        flex-direction:row;
+        align-items:stretch;
+
+        .secondGroupFirstMenu {
+            order:1;
+            flex-grow:0;
+            flex-shrink:0;
+            position:relative;
+            width:370px;
+            padding:0px;
+        }
+        .secondGroupSecondMenu {
+            order:2;
+            flex-grow:1;
+            flex-shrink:1;
+            position:relative;
+            padding:0px;
+            display:flex;
+            flex-direction:column;
+            align-items:stretch;
+            .rightDemoButton {
+                order:1;
+                flex-grow:0;
+                flex-shrink:0;
+                height:100px;
+            }
+            .rightDemoButton2 {
+                order:2;
+                flex-grow:0;
+                flex-shrink:0;
+                height:115px;
+            }
+            .rightDemoInfo {
+                order:3;
+                flex-grow:1;
+                flex-shrink:1;
+                p {
+                    /* text fades in and fades out
+                    // in the currentMessage area */
+                    transition:opacity 1s;
+                }
+            }
+        }
+    }
+}
+
+/*
+  Local Variables:
+  mode: css
+  indent-tabs-mode: nil
+  tab-width: 8
+  End:
+*/

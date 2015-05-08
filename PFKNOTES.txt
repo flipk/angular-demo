@@ -1,0 +1,72 @@
+
+yum install openssl-devel tcl-devel tk-devel readline-devel
+
+rm -rf ~/.npm ~/.gem
+- install node, ruby
+
+export PATH=/opt/web/bin:$PATH
+
+npm update -g npm
+
+gem install compass
+
+npm install -g yo grunt-cli bower generator-angular
+
+npm install -g karma generator-karma generator-require grunt
+npm install -g grunt-autoprefixer grunt-concurrent grunt-contrib-clean
+npm install -g grunt-contrib-compass grunt-contrib-concat
+npm install -g grunt-contrib-connect grunt-contrib-copy grunt-contrib-cssmin
+npm install -g grunt-contrib-htmlmin grunt-contrib-imagemin
+npm install -g grunt-contrib-jshint grunt-contrib-uglify
+npm install -g grunt-contrib-watch grunt-filerev grunt-html
+npm install -g grunt-karma grunt-newer grunt-ng-annotate grunt-svgmin
+npm install -g grunt-usemin grunt-wiredep
+npm install -g generator-flux generator-flux-react generator-flux-react-app
+npm install -g generator-flux-webapp generator-gflux generator-react-flux
+npm install -g generator-react generator-react-6 generator-react-boilerplate
+npm install -g generator-react-component
+npm install -g generator-go
+
+bower install angular angular-animate angular-aria angular-bootstrap
+bower install angular-cookies angular-filter angular-messages angular-mocks
+bower install angular-resource angular-route angular-sanitize angular-touch
+bower install bootstrap-sass-official flux flux-angular jquery react-flux
+bower install typicons --save
+
+- make a project directory
+
+ln -s /path/to/bower_components
+ln -s /path/to/node_modules
+
+yo angular
+
+change 'localhost' to '0.0.0.0' in gruntfile.js
+
+  grunt.initConfig({
+    htmllint: {
+	all: {
+	    options: {
+		ignore: [
+/Attribute .ng-.* not allowed on element/,
+/Element .ng-.* not allowed/,
+/Start tag seen without seeing a doctype/,
+/Element .head. is missing a required instance/
+		]
+	    },
+	    src: "app/**/*.html"
+	}
+    }
+
+yo angular:controller navbar
+
+yo angular:route buttons
+
+grunt htmllint
+
+grunt serve
+
+remove google analytics from index.html
+
+comment out 'cdnify'
+
+grunt build

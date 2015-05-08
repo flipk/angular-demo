@@ -1,0 +1,18 @@
+<div class="hoverMenu">
+  <input ng-repeat-start="choice in choices"
+         type="radio" name="{{name}}" id="{{name}}{{$index}}"
+	 class="radio" ng-model="value.selection" ng-value="$index"
+	 ng-change="onChange()"/>
+  <div ng-repeat-end class="list-item" id="div_{{name}}{{$index}}">
+    <label for="{{name}}{{$index}}">
+      {{$index}}: {{choice}}
+    </label>
+  </div>
+  <!--
+      Local Variables:
+      mode: html
+      indent-tabs-mode: nil
+      tab-width: 8
+      End:
+    -->
+</div>

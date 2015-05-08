@@ -1,0 +1,62 @@
+<div class="buttonView">
+  <div class="firstButton">
+    <div class="firstButtonLabel">
+      click this button:
+    </div>
+    <div class="firstButton">
+      <pfk-rocker-switch value="radioButton"
+                         on-change="radioButton.onSwitchChange">
+      </pfk-rocker-switch>
+    </div>
+  </div>
+  <div class="secondGroup"> <!-- two menu thingies side by side -->
+    <div class="secondGroupFirstMenu"> <!-- first menu thingy -->
+      <p>selection = {{radioButton.selection}}</p>
+      <pfk-slider-menu
+         choices="radioButton.choices"
+         name="leftDemoMenu"
+         on-change="radioButton.onChangeLeft"
+         value="radioButton">
+      </pfk-slider-menu>
+    </div> <!-- done first menu thingy -->
+    <div class="secondGroupSecondMenu"> <!-- second menu thingy -->
+      <div class="rightDemoButton">
+        <p>this is a third button</p>
+        <pfk-hover-menu
+           choices="radioButton.choices"
+           name="rightDemoMenu"
+           on-change="radioButton.onChangeRight"
+           value="radioButton">
+        </pfk-hover-menu>
+      </div> <!-- rightDemoButton -->
+
+      <div class="rightDemoButton2">
+        <input id="dispChannels" type="checkbox"
+               ng-model="radioButton.dispTicks"
+               ng-click="radioButton.doDispTicks()">
+        <label for="dispChannels">display ticks</label>
+        <br>
+        <pfk-range-selector id="range0"
+           config-object="radioButton.rangeConfigs[0]">
+        </pfk-range-selector>
+        <br>
+        <pfk-range-selector id="range1"
+           config-object="radioButton.rangeConfigs[1]">
+        </pfk-range-selector>
+      </div> <!-- rightDemoButton2 -->
+
+      <div class="rightDemoInfo">
+        <p ng-style="{opacity:showCurrentMessage}">
+          {{currentMessage}}
+        </p>
+      </div> <!-- rightDemoInfo -->
+    </div> <!-- done second menu thingy -->
+  </div> <!-- done second group -->
+  <!--
+      Local Variables:
+      mode: html
+      indent-tabs-mode: nil
+      tab-width: 8
+      End:
+    -->
+</div>
