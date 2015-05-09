@@ -14,7 +14,7 @@ function () {
         templateUrl: 'templates/rockerswitch.html',
         scope: {
             value : '=value',
-            onChange : '=onChange'
+            click : '=click'
         },
 //      link: function postLink(scope, element, attrs) {
 //            element.text('this is the rockerswitch directive');

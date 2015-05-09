@@ -1,15 +1,6 @@
 'use strict';
 
-
-
-
-// TODO change pfk-rocker-switch, pfk-hover-menu, and pfk-slider-menu
-//      to communicate with their parent using $emit and to receive $broadcast.
-
-
-
-
-
+var gButtonsScope = null;
 
 /**
  * @ngdoc function
@@ -19,8 +10,8 @@
  * Controller of the angulardemoApp
  */
 angular.module('angulardemoApp').controller('ButtonsCtrl',
-       [ '$scope', '$interval', 'pfkRangeSelectorService',
-function ($scope,   $interval,   pfkRangeSelectorService) {
+       [ '$scope', '$interval',
+function ($scope,   $interval) {
 
     $scope.showCurrentMessage = 0;
     $scope.currentMessage = '';
@@ -29,31 +20,16 @@ function ($scope,   $interval,   pfkRangeSelectorService) {
         timerPromise : null,
         displayMessage : function (msg) {
             $scope.currentMessage = msg;
-            if (this.timerPromise) {
-                $interval.cancel(this.timerPromise);
+            if (msgArea.timerPromise) {
+                $interval.cancel(msgArea.timerPromise);
             }
             $scope.showCurrentMessage = 1;
-            this.timerPromise = $interval(function(){
-                $scope.radioButton.timerPromise = null;
+            msgArea.timerPromise = $interval(function(){
+                msgArea.timerPromise = null;
                 $scope.showCurrentMessage = 0;
             }, 1000, 1, true);
         }
     };
-
-    $scope.$on('range0.centerChange',function(evt,data) {
-        msgArea.displayMessage('new center on 0 ' + data);
-    });
-    $scope.$on('range0.dragComplete',function(evt,data) {
-        msgArea.displayMessage('new range on 0 ' +
-                               data[0] + ' ' + data[1]);
-    });
-    $scope.$on('range1.centerChange',function(evt,data) {
-        msgArea.displayMessage('new center on 1 ' + data);
-    });
-    $scope.$on('range1.dragComplete',function(evt,data) {
-        msgArea.displayMessage('new range on 1 ' +
-                               data[0] + ' ' + data[1]);
-    });
 
     // note the choice of making an object.
     // this is because ng-repeat makes a new scope, so when
@@ -73,50 +49,87 @@ function ($scope,   $interval,   pfkRangeSelectorService) {
         selection : 1,
         onChangeLeft : function () {
             msgArea.displayMessage('thank you for selecting ' +
-                                   $scope.radioButton.selection + ' on the left');
+                                   $scope.radioButton.selection +
+                                   ' on the left');
         },
         onChangeRight : function () {
             msgArea.displayMessage('thank you for selecting ' +
-                                   $scope.radioButton.selection + ' on the right');
-        },
-        switchState : false,
-        onSwitchChange : function () {
-            msgArea.displayMessage(
-                'thank you for flipping ' +
-                    'the switch ' +
-                    ($scope.radioButton.switchState ? 'ON' : 'OFF'));
+                                   $scope.radioButton.selection +
+                                   ' on the right');
+        }
+    }; // $scope.radioButton
 
-            var newState =
-                $scope.radioButton.switchState ?
-                pfkRangeSelectorService.windowState.DISPLAYWINDOW :
-                pfkRangeSelectorService.windowState.DRAGRANGESTART;
+    $scope.switchState = false;
+    $scope.switchClick = function () {
+        msgArea.displayMessage(
+            'thank you for flipping ' +
+                'the switch ' +
+                ($scope.switchState ? 'ON' : 'OFF'));
 
-            $scope.radioButton.rangeConfigs[0].setState(newState);
-            $scope.radioButton.rangeConfigs[1].setState(newState);
-        },
-
-        dispTicks : false,
-        doDispTicks : function () {
-            if ($scope.radioButton.dispTicks) {
-                $scope.$broadcast('range0.updateTicks', [ 16, 29, 55, 116 ]);
-                $scope.$broadcast('range1.updateTicks', [ 750, 755, 770, 800 ]);
-            } else {
-                $scope.$broadcast('range0.updateTicks', []);
-                $scope.$broadcast('range1.updateTicks', []);
-            }
-        },
-
-        rangeConfigs : [
-            new pfkRangeSelectorService.RangeSelectorConfig(
-                /*range*/ [[900, 1000], [1, 124]],
-                /*windowSize*/ 128, /*windowCenter*/ 3
-            ),
-            new pfkRangeSelectorService.RangeSelectorConfig(
-                /*range*/ [[512, 830]],
-                /*windowSize*/ 128, /*windowCenter*/ 725
-            )
-        ]
+        if ($scope.switchState) {
+            $scope.ranges.range0.windowMode(3,128);
+            $scope.ranges.range1.windowMode(725,128);
+        } else {
+            $scope.ranges.range0.rangeDragMode();
+            $scope.ranges.range1.rangeDragMode();
+        }
     };
+    $scope.dispTicks = false;
+    $scope.doDispTicks = function () {
+        if ($scope.dispTicks) {
+            $scope.ranges.range0.setTicks([ 16, 29, 55, 116 ]);
+            $scope.ranges.range1.setTicks([ 750, 755, 770, 800 ]);
+        } else {
+            $scope.ranges.range0.setTicks([]);
+            $scope.ranges.range1.setTicks([]);
+        }
+    };
+
+    $scope.ranges = {};
+    $scope.handleRangeEvent = function(evt,data) {
+        switch (evt) {
+        case 'CONSTRUCTED':
+            $scope.ranges[data.id] = data;
+            if (data.id === 'range0') {
+                data.setValidRange([[900, 1000], [1, 124]]);
+            }
+            if (data.id === 'range1') {
+                data.setValidRange([[512,830]]);
+            }
+            break;
+        case 'DESTRUCTED':
+            // 
+            break;
+        case 'WINDOWMOVED':
+            msgArea.displayMessage('window moved '+JSON.stringify(data));
+            break;
+        case 'RANGEDRAGGED':
+            msgArea.displayMessage('range dragged '+JSON.stringify(data));
+            if (data.startTick < data.endTick) {
+                var startPos = data.startTick;
+                var endPos = data.endTick;
+                var currentPos = data.startTick;
+                var whichRange = data.id;
+                var promise = $interval(function() {
+                    $scope.ranges[whichRange].rangeProgress(
+                        startPos, endPos, currentPos
+                    );
+                    currentPos ++;
+                    if (currentPos >= endPos) {
+                        $interval.cancel(promise);
+                        $scope.ranges[whichRange].rangeDragMode(
+                            startPos, endPos);
+                    }
+                }, 100, 0, true);
+            }
+            break;
+        }
+    };
+
+    gButtonsScope = $scope;
+    $scope.$on('$destroy',function() {
+        gButtonsScope = null;
+    });
 }]);
 
 /*

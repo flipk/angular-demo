@@ -33,7 +33,7 @@
     <div ng-controller="NavbarCtrl" class="nav">
       <ul>
         <li nohover> PFK </li>
-        <li> <a href="http://www.pfk.org"> pfk.org </a> </li>
+        <li> <a href="http://www.pfk.org"> www.pfk.org </a> </li>
         <li ng-repeat="view in views" ng-init="index = view.index"
             ng-class="{active:viewNum==$index}">
           <a ng-href="#{{view.path}}" ng-click="updateView($index)">
@@ -74,6 +74,8 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
+    <script src="bower_components/flux/dist/Flux.js"></script>
+    <script src="bower_components/flux-angular/release/flux-angular.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

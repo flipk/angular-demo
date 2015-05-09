@@ -4,8 +4,7 @@
       click this button:
     </div>
     <div class="firstButton">
-      <pfk-rocker-switch value="radioButton"
-                         on-change="radioButton.onSwitchChange">
+      <pfk-rocker-switch value="switchState" click="switchClick">
       </pfk-rocker-switch>
     </div>
   </div>
@@ -29,22 +28,17 @@
            value="radioButton">
         </pfk-hover-menu>
       </div> <!-- rightDemoButton -->
-
       <div class="rightDemoButton2">
         <input id="dispChannels" type="checkbox"
-               ng-model="radioButton.dispTicks"
-               ng-click="radioButton.doDispTicks()">
+               ng-model="dispTicks" ng-click="doDispTicks()">
         <label for="dispChannels">display ticks</label>
         <br>
-        <pfk-range-selector id="range0"
-           config-object="radioButton.rangeConfigs[0]">
+        <pfk-range-selector id="range0" callback="handleRangeEvent">
         </pfk-range-selector>
         <br>
-        <pfk-range-selector id="range1"
-           config-object="radioButton.rangeConfigs[1]">
+        <pfk-range-selector id="range1" callback="handleRangeEvent">
         </pfk-range-selector>
       </div> <!-- rightDemoButton2 -->
-
       <div class="rightDemoInfo">
         <p ng-style="{opacity:showCurrentMessage}">
           {{currentMessage}}

@@ -34,7 +34,7 @@
     {{dragEndTickNumber}}
   </div>
   <!-- highlight the individual ticks -->
-  <div ng-repeat="tickPos in tickPositions" class="tickIndicator"
+  <div ng-repeat="tickPos in tickPositions track by $index" class="tickIndicator"
        ng-style="{left:tickPos}">
   </div>
   <!--
