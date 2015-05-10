@@ -59,21 +59,32 @@ function ($scope,   $interval) {
         }
     }; // $scope.radioButton
 
-    $scope.switchState = false;
-    $scope.switchClick = function () {
-        msgArea.displayMessage(
-            'thank you for flipping ' +
-                'the switch ' +
-                ($scope.switchState ? 'ON' : 'OFF'));
-
-        if ($scope.switchState) {
+    $scope.switchData = null;
+    $scope.switchCallback = function(evt,data) {
+        switch (evt) {
+        case 'CONSTRUCTED':
+            $scope.switchData = data;
+            break;
+        case 'DESTRUCTED':
+            //nothing
+            break;
+        case 'ON':
+            msgArea.displayMessage(
+                'thank you for flipping ' +
+                    'the switch ON');
             $scope.ranges.range0.windowMode(3,128);
             $scope.ranges.range1.windowMode(725,128);
-        } else {
+            break;
+        case 'OFF':
+            msgArea.displayMessage(
+                'thank you for flipping ' +
+                    'the switch OFF');
             $scope.ranges.range0.rangeDragMode();
             $scope.ranges.range1.rangeDragMode();
+            break;
         }
     };
+
     $scope.dispTicks = false;
     $scope.doDispTicks = function () {
         if ($scope.dispTicks) {

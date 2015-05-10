@@ -1,5 +1,14 @@
 'use strict';
 
+// usage:
+//    <pfk-rocker-switch id="id" callback="parentCallback">
+//
+// parentCallback : function(evt,data) where
+//    evt = 'ON'            and data = { id }
+//    evt = 'OFF'           and data = { id }
+//    evt = 'DESTRUCTED'    and data = { id }
+//    evt = 'CONSTRUCTED'   and data = { id, ? }
+
 /**
  * @ngdoc directive
  * @name testappApp.directive:rockerswitch
@@ -13,12 +22,31 @@ function () {
         restrict: 'E',
         templateUrl: 'templates/rockerswitch.html',
         scope: {
-            value : '=value',
-            click : '=click'
+            id       : '@id',
+            callback : '=callback'
         },
 //      link: function postLink(scope, element, attrs) {
 //            element.text('this is the rockerswitch directive');
 //      }
+        controller : function($scope) { // $element $attrs
+
+            $scope.value = false;
+            $scope.click = function() {
+                if ($scope.value) {
+                    $scope.callback('ON', { id : $scope.id });
+                } else {
+                    $scope.callback('OFF', { id : $scope.id });
+                }
+            };
+
+            $scope.callback('CONSTRUCTED', {
+                id : $scope.id,
+
+            });
+            $scope.$on('$destroy',function() {
+                $scope.callback('DESTRUCTED', { id : $scope.id });
+            });
+        }
     };
 });
 
