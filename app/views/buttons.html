@@ -21,12 +21,13 @@
     <div class="secondGroupSecondMenu"> <!-- second menu thingy -->
       <div class="rightDemoButton">
         <p>this is a third button</p>
+
         <pfk-hover-menu
-           choices="radioButton.choices"
-           name="rightDemoMenu"
-           on-change="radioButton.onChangeRight"
-           value="radioButton">
+           id="rightDemoMenu"
+           callback="hoverCallback">
         </pfk-hover-menu>
+
+
       </div> <!-- rightDemoButton -->
       <div class="rightDemoButton2">
         <input id="dispChannels" type="checkbox"

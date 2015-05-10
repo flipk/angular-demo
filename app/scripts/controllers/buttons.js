@@ -51,13 +51,28 @@ function ($scope,   $interval) {
             msgArea.displayMessage('thank you for selecting ' +
                                    $scope.radioButton.selection +
                                    ' on the left');
-        },
-        onChangeRight : function () {
-            msgArea.displayMessage('thank you for selecting ' +
-                                   $scope.radioButton.selection +
-                                   ' on the right');
+            $scope.rightDemoMenu.setSelection($scope.radioButton.selection);
         }
     }; // $scope.radioButton
+
+    $scope.rightDemoMenu = null;
+    $scope.hoverCallback = function(evt,data) {
+        switch (evt) {
+        case 'CONSTRUCTED':
+            $scope.rightDemoMenu = data;
+            $scope.rightDemoMenu.setChoices($scope.radioButton.choices);
+            $scope.rightDemoMenu.setSelection(1);
+            break;
+        case 'DESTRUCTED':
+            break;
+        case 'SELECTION':
+            msgArea.displayMessage('thank you for selecting ' +
+                                   data.index +
+                                   ' on the right');
+            $scope.radioButton.selection = data.index;
+            break;
+        }
+    };
 
     $scope.switchData = null;
     $scope.switchCallback = function(evt,data) {
