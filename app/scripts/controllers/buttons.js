@@ -74,6 +74,8 @@ function ($scope,   $interval) {
         }
     };
 
+    var tickWidth = 1; //25
+
     $scope.switchData = null;
     $scope.switchCallback = function(evt,data) {
         switch (evt) {
@@ -94,8 +96,8 @@ function ($scope,   $interval) {
             msgArea.displayMessage(
                 'thank you for flipping ' +
                     'the switch OFF');
-            $scope.ranges.range0.rangeDragMode();
-            $scope.ranges.range1.rangeDragMode();
+            $scope.ranges.range0.rangeDragMode(null,null,tickWidth);
+            $scope.ranges.range1.rangeDragMode(null,null,tickWidth);
             break;
         }
     };
@@ -112,15 +114,32 @@ function ($scope,   $interval) {
     };
 
     $scope.ranges = {};
+
+    var group1 = [];
+    var cnt;
+    for (cnt = 900; cnt <= 1000; cnt++) {
+        group1.push(cnt);
+    }
+    for (cnt = 1; cnt <= 124; cnt++) {
+        group1.push(cnt);
+    }
+
+    var group2 = [];
+    for (cnt = 512; cnt <= 830; cnt++) {
+        group2.push(cnt);
+    }
+
     $scope.handleRangeEvent = function(evt,data) {
         switch (evt) {
         case 'CONSTRUCTED':
             $scope.ranges[data.id] = data;
             if (data.id === 'range0') {
-                data.setValidRange([[900, 1000], [1, 124]]);
+                data.setValidTicks(group1);
+                data.ticks = group1;
             }
             if (data.id === 'range1') {
-                data.setValidRange([[512,830]]);
+                data.setValidTicks(group2);
+                data.ticks = group2;
             }
             break;
         case 'DESTRUCTED':
@@ -131,23 +150,29 @@ function ($scope,   $interval) {
             break;
         case 'RANGEDRAGGED':
             msgArea.displayMessage('range dragged '+JSON.stringify(data));
-            if (data.startTick < data.endTick) {
-                var startPos = data.startTick;
-                var endPos = data.endTick;
-                var currentPos = data.startTick;
-                var whichRange = data.id;
-                var promise = $interval(function() {
-                    $scope.ranges[whichRange].rangeProgress(
-                        startPos, endPos, currentPos
+
+            var startInd = data.startInd;
+            var endInd = data.endInd;
+            var currentInd = data.startInd;
+            var whichRange = data.id;
+            var promise = $interval(function() {
+                $scope.ranges[whichRange].rangeProgress(
+                    $scope.ranges[whichRange].ticks[startInd],
+                    $scope.ranges[whichRange].ticks[endInd],
+                    $scope.ranges[whichRange].ticks[currentInd],
+                    tickWidth
+                );
+                currentInd ++;
+                if (currentInd >= endInd) {
+                    $interval.cancel(promise);
+                    $scope.ranges[whichRange].rangeDragMode(
+                        $scope.ranges[whichRange].ticks[startInd],
+                        $scope.ranges[whichRange].ticks[endInd],
+                        tickWidth
                     );
-                    currentPos ++;
-                    if (currentPos >= endPos) {
-                        $interval.cancel(promise);
-                        $scope.ranges[whichRange].rangeDragMode(
-                            startPos, endPos);
-                    }
-                }, 100, 0, true);
-            }
+                }
+            }, 100, 0, true);
+
             break;
         }
     };

@@ -4,19 +4,19 @@
 //    <pfk-range-selector id="SOMESTRING" callback="parentCallback">
 //
 //  parentCallback : function (evt, data)  where
-//   evt = 'WINDOWMOVED'  and data = { id, centerTick, tickWidth }
-//   evt = 'RANGEDRAGGED' and data = { id, startTick, endTick }
+//   evt = 'WINDOWMOVED'  and data = { id, centerTick, centerInd, tickWidth }
+//   evt = 'RANGEDRAGGED' and data = { id, startTick, startInd, endTick, endInd }
 //   evt = 'DESTRUCTED'   and data = { id }
 //   evt = 'CONSTRUCTED'  and data = { id, setRanges, windowMode, 
 //                                     rangeDragMode, rangeProgress,
 //                                     setTicks, setHighlightTicks }
 // where 
-//   setValidRange : function(ranges)  where  ranges = [[],[]]
+//   setValidTicks : function(ticks)  where  ticks = []
 //   windowMode : function(centerTick,tickWidth)
-//   rangeDragMode : function(startTick, endTick)  nulls mean start blank
-//   rangeProgress : function(startTick, endTick, currentTick)
-//   setTicks : function(ticks) where ticks = []
-//   setHighlightTicks : function(ticks) where ticks = []
+//   rangeDragMode : function(startTick, endTick, tickWidth)  nulls=start blank
+//   rangeProgress : function(startTick, endTick, currentTick, tickWidth)
+//   setTicks : function(ticks,tickWidth) where ticks = []
+//   setHighlightTicks : function(ticks,tickWidth) where ticks = []
 
 var gRangeScope = [];
 
@@ -46,10 +46,11 @@ function ($interval,   service) {
                               //,otherInjectables
                              ) {
 
-            $scope.validRange = [[],[]];
+            $scope.indToTickArray = []; // index by ind
+            $scope.tickToIndArray = {}; // attribs are ticks
 
             // window mode
-            $scope.windowCenter = 0; // tick from validRange
+            $scope.windowCenter = 0; // tick
             $scope.windowSize = 0; // in ticks/indexes
 
             //$scope.sliderDiv.css({display:'block'});
@@ -117,55 +118,27 @@ function ($interval,   service) {
             }
 
             // definition:
-            //    tick = user's value, a number from validRange
-            //    index = zero-based index into validRange
+            //    tick = user's value, a number in indToTickArray
+            //    index = zero-based index into indToTickArray
             //    Px = pixels from left of pfkRangeSelector
 
             function pxToIndex(px) {
                 return parseInt(ticksInValid() * px / parentWidth());
             }
             function indexToTick(ind) {
-                var ret = -1;
-                if (ind < 0) {
-                    return ret;
+                if (ind < 0 || ind >= $scope.indToTickArray.length) {
+                    return -1;
                 }
-                $scope.validRange.every(
-                    function(range) {
-                        var len = range[1] - range[0] + 1;
-                        if (ind >= len) {
-                            ind -= len;
-                            return true; // keep searching
-                        }
-                        ret = range[0] + ind;
-                        return false; // done
-                    }
-                );
-                return ret;
+                return $scope.indToTickArray[ind];
             }
             function ticksInValid() {
-                var count = 0;
-                $scope.validRange.forEach(
-                    function(range) {
-                        count += range[1] - range[0] + 1;
-                    }
-                );
-                return count;
+                return $scope.indToTickArray.length;
             }
             function tickToIndex(tick) {
-                var index = 0;
-                $scope.validRange.every(
-                    function(range) {
-                        if (tick >= range[0] &&
-                            tick <= range[1])
-                        {
-                            index += tick - range[0];
-                            return false;
-                        }
-                        index += range[1] - range[0] + 1;
-                        return true;
-                    }
-                );
-                return index;
+                if (tick in $scope.tickToIndArray) {
+                    return $scope.tickToIndArray[tick];
+                }
+                return 0;
             }
             function indexToPx(ind) {
                 return parseInt(parentWidth() * ind / ticksInValid());
@@ -181,12 +154,16 @@ function ($interval,   service) {
                 $scope.sliderWindowWidth = indexToPx(rightInd - leftInd);
             }
 
-            // uses in $scope : mousePosTickNumber
+            // uses in $scope : mousePosTickNumber and dragCursorWidth
             function drawRangeCursor() {
                 $scope.displayMousePosLineInd = 1;
                 $scope.displayMousePosInd = 1;
                 var pos = indexToPx(tickToIndex($scope.mousePosTickNumber));
+                pos -= $scope.dragCursorWidth / 2;
                 $scope.mousePosLineIndPos = pos;
+                if (pos < 0) {
+                    pos = 0;
+                }
                 var pw = parentWidth();
                 if (pos > (pw - 35)) {
                     pos = pw - 35;
@@ -195,11 +172,15 @@ function ($interval,   service) {
             }
 
             // uses in $scope : dragStartTickNumber and dragEndTickNumber
+            //                  and dragCursorWidth
             function drawRange() {
                 var leftPx = indexToPx(tickToIndex($scope.dragStartTickNumber));
                 var rightPx = indexToPx(tickToIndex($scope.dragEndTickNumber));
 
                 $scope.displayDragStartIndicator = true;
+
+                leftPx -= $scope.dragCursorWidth / 2;
+                rightPx += $scope.dragCursorWidth / 2;
 
                 $scope.dragStartIndicatorPos = leftPx - 35;
                 if ($scope.dragStartIndicatorPos < 0) {
@@ -299,7 +280,8 @@ function ($interval,   service) {
                                 $scope.windowCenter = newCenter;
                                 $scope.callback('WINDOWMOVED', {
                                     id: $scope.id,
-                                    centerTick : $scope.windowCenter,
+                                    centerTick : newCenter,
+                                    centerInd : newCenterInd,
                                     tickWidth : $scope.windowSize
                                 });
                             }
@@ -410,12 +392,18 @@ function ($interval,   service) {
                                 // dragging to the right
                                 $scope.dragStartTickNumber =
                                     indexToTick($scope.mouseDragStartingInd);
+                                $scope.dragStartInd =
+                                    $scope.mouseDragStartingInd;
                                 $scope.dragEndTickNumber = mouseTick;
+                                $scope.dragEndInd = mouseInd;
                             } else {
                                 // dragging to the left
                                 $scope.dragStartTickNumber = mouseTick;
+                                $scope.dragStartInd = mouseInd;
                                 $scope.dragEndTickNumber = 
                                     indexToTick($scope.mouseDragStartingInd);
+                                $scope.dragEndInd =
+                                    $scope.mouseDragStartingInd;
                             }
 
                             drawRange();
@@ -433,7 +421,9 @@ function ($interval,   service) {
                             $scope.callback('RANGEDRAGGED', {
                                 id: $scope.id,
                                 startTick : $scope.dragStartTickNumber,
-                                endTick : $scope.dragEndTickNumber
+                                startInd : $scope.dragStartInd,
+                                endTick : $scope.dragEndTickNumber,
+                                endInd : $scope.dragEndInd
                             });
                         });
                         if (inWindow) {
@@ -459,10 +449,16 @@ function ($interval,   service) {
                 $scope.setState(states.BLANK);
             }
 
-            function setValidRange(ranges) {
-                $scope.validRange.length = 0;
-                ranges.forEach(function(range) {
-                    $scope.validRange.push([range[0],range[1]]);
+            function setValidTicks(ticks) {
+                $scope.indToTickArray.length = 0;
+                $scope.tickToIndArray = {};
+                ticks.forEach(function(t) {
+                    if (t in $scope.tickToIndArray) {
+                        console.error('duplicate entry',t,'in ticks',ticks);
+                    } else {
+                        $scope.tickToIndArray[t] = $scope.indToTickArray.length;
+                        $scope.indToTickArray.push(t);
+                    }
                 });
             }
 
@@ -473,7 +469,9 @@ function ($interval,   service) {
                 $scope.setState(states.DISPLAYWINDOW);
             }
 
-            function rangeDragMode(startTick, endTick) {
+            function rangeDragMode(startTick, endTick, tickWidth) {
+                $scope.dragCursorWidth = indexToPx(tickWidth);
+                console.log('width',tickWidth,$scope.dragCursorWidth);
                 if (startTick !== null && endTick !== null) {
                     resetWindows();
                     $scope.dragStartTickNumber = startTick;
@@ -508,7 +506,7 @@ function ($interval,   service) {
             $scope.callback('CONSTRUCTED', {
                 id               : $scope.id,
                 setBlankMode     : setBlankMode,
-                setValidRange    : setValidRange,
+                setValidTicks    : setValidTicks,
                 windowMode       : windowMode,
                 rangeDragMode    : rangeDragMode,
                 rangeProgress    : rangeProgress,

@@ -35,8 +35,8 @@ bower install typicons --save
 
 - make a project directory
 
-ln -s /path/to/bower_components
-ln -s /path/to/node_modules
+ln -s /opt/web/lib/bower_components
+ln -s /opt/web/lib/node_modules
 
 yo angular
 

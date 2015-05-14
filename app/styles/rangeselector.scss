@@ -35,16 +35,17 @@ $tickColor: #808080;
         position:absolute;
         background:$mouseLineColor;
         height:$rangeSelectorHeight;
-        width:1px;
         top:0px;
         left:0px; /* code moves this */
         z-index:20;
         transition:opacity 0.3s;
+        background:$windowSliderBg;
+        box-shadow:inset 0 0 18px 5px rgba(255,255,255,0.5);
     }
 
     .sliderWindow {
         position:absolute;
-        height:45px;
+        height:$rangeSelectorHeight;
         width:50px;
         top:0px;
         left:25px;
@@ -57,7 +58,7 @@ $tickColor: #808080;
     .movingSliderWindow {
         display:block;
         position:absolute;
-        height:45px;
+        height:$rangeSelectorHeight;
         width:50px;
         top:0px;
         left:25px;
@@ -80,7 +81,7 @@ $tickColor: #808080;
 
     .dragRangeWindow {
         position:absolute;
-        height:45px;
+        height:$rangeSelectorHeight;
         width:50px;
         top:0px;
         left:25px;

@@ -10,9 +10,11 @@
   <!-- invisible div on top that tracks the mouse -->
   <div ng-show="displayMousePosSensor" class="mousePosSensor">
   </div>
-  <!-- 1px wide line indicator of the mouse position during range dragging -->
+  <!-- indicator of the mouse position during range dragging -->
   <div class="mousePosLineInd"
-       ng-style="{left:mousePosLineIndPos,opacity:displayMousePosLineInd}">
+       ng-style="{left:mousePosLineIndPos,
+                 width:dragCursorWidth,
+                 opacity:displayMousePosLineInd}">
   </div>
   <!-- display the integer tick number next to the above line -->
   <div class="mousePosIndicator"
