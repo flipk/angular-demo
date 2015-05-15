@@ -21,18 +21,18 @@
     <div class="secondGroupSecondMenu"> <!-- second menu thingy -->
       <div class="rightDemoButton">
         <p>this is a third button</p>
-
         <pfk-hover-menu
            id="rightDemoMenu"
            callback="hoverCallback">
         </pfk-hover-menu>
-
-
       </div> <!-- rightDemoButton -->
       <div class="rightDemoButton2">
         <input id="dispChannels" type="checkbox"
                ng-model="dispTicks" ng-click="doDispTicks()">
         <label for="dispChannels">display ticks</label>
+        <input id="do25" type="checkbox"
+               ng-model="do25" ng-click="do25Click()">
+        <label for="do25">do 25</label>
         <br>
         <pfk-range-selector id="range0" callback="handleRangeEvent">
         </pfk-range-selector>

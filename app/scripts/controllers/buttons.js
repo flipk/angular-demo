@@ -74,7 +74,16 @@ function ($scope,   $interval) {
         }
     };
 
+    $scope.do25 = false;
+
     var tickWidth = 1; //25
+    $scope.do25Click = function() {
+        if ($scope.do25) {
+            tickWidth = 25;
+        } else {
+            tickWidth = 1;
+        }
+    };
 
     $scope.switchData = null;
     $scope.switchCallback = function(evt,data) {
