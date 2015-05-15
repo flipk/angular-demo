@@ -25,8 +25,8 @@
   <body ng-cloak ng-app="angulardemoApp" ng-controller="NavbarCtrl">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser.
-        Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve
-        your experience.</p>
+        Please <a href="http://browsehappy.com/">upgrade your browser</a> to
+        improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
@@ -34,9 +34,9 @@
       <ul>
         <li nohover> PFK </li>
         <li> <a href="http://www.pfk.org"> www.pfk.org </a> </li>
-        <li ng-repeat="view in views" ng-init="index = view.index"
-            ng-class="{active:viewNum==$index}">
-          <span ng-click="updateView($index)">
+        <li ng-repeat="view in views" ng-init="index = $index"
+            ng-class="{active:view===currentView}">
+          <span ng-click="updateView(index)">
             {{view.view}}
           </span>
         </li>
@@ -48,9 +48,9 @@
       <!-- ng-view -->
       <div id="viewArea" class="viewArea">
         <div class="viewAreaVirtual"
-             ng-style="{transform:('translate(-'+viewTranslate+'%)')}">
+             ng-style="{transform:('translate(-'+currentView.left+')')}">
           <div class="viewAreaPhysical" ng-repeat="view in views"
-               ng-style="{left:(view.left+'%')}">
+               ng-style="{left:view.left}">
             <ng-include src="view.path">
             </ng-include>
           </div>

@@ -67,14 +67,19 @@ body {
     .active a {
         color:#ffffff;
     }
+    .active span {
+        color:#ffffff;
+    }
     .active {
         border-bottom-color:red;
-        border-bottom-style:solid;
-        border-bottom-width:5px;
     }
     a {
         color:#c0c0c0;
         text-decoration:none; /* dont put underlines */
+        outline-style:none; /* dont put a box around it when you click it */
+    }
+    span {
+        color:#c0c0c0;
         outline-style:none; /* dont put a box around it when you click it */
     }
     li:first-child {
@@ -84,15 +89,21 @@ body {
     }
     li {
         display:inline-block;
-        transition:background 0.3s;
+        transition:background 0.5s, border-color 0.8s;
         padding-right:15px;
         padding-left:15px;
+        border-bottom-style:solid;
+        border-bottom-width:5px;
+        border-bottom-color:rgba(0,0,0,0);
+        cursor:pointer;
     }
     li[nohover]:hover {
         background:$navBgColor;
+        border-bottom-color:rgba(0,0,0,0);
+        cursor:initial;
     }
     li:hover {
-        background:$navBgHoverColor;
+        border-bottom-color:#c0c0c0;
     }
 }
 
