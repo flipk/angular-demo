@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="styles/rangeselector.css">
     <!-- endbuild -->
   </head>
-  <body ng-cloak ng-app="angulardemoApp">
+  <body ng-cloak ng-app="angulardemoApp" ng-controller="NavbarCtrl">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser.
         Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve
@@ -30,23 +30,31 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ng-controller="NavbarCtrl" class="nav">
+    <div class="nav">
       <ul>
         <li nohover> PFK </li>
         <li> <a href="http://www.pfk.org"> www.pfk.org </a> </li>
         <li ng-repeat="view in views" ng-init="index = view.index"
             ng-class="{active:viewNum==$index}">
-          <a ng-href="#{{view.path}}" ng-click="updateView($index)">
+          <span ng-click="updateView($index)">
             {{view.view}}
-          </a>
+          </span>
         </li>
       </ul>
     </div> <!-- nav -->
 
     <div class="container">
       <div class="leftSide"></div>
+      <!-- ng-view -->
       <div id="viewArea" class="viewArea">
-        <ng-view></ng-view>
+        <div class="viewAreaVirtual"
+             ng-style="{transform:('translate(-'+viewTranslate+'%)')}">
+          <div class="viewAreaPhysical" ng-repeat="view in views"
+               ng-style="{left:(view.left+'%')}">
+            <ng-include src="view.path">
+            </ng-include>
+          </div>
+        </div>
       </div>
     </div>
 

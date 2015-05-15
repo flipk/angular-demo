@@ -8,14 +8,13 @@ angular.module('angulardemoApp').controller('StarfieldCtrl',
 function ($scope,   $rootScope) {
 
     var data = {
-        canvas : document.getElementById('starfield-canvas'),
+        canvas : angular.element('#starfield-canvas'),
         body : document.body,
         ctx : null,
-        div : document.getElementById('viewArea'),
+        starfieldDiv : angular.element('#starfield-div'),
+        viewAreaDiv : angular.element('#viewArea'),
         width : null,
         height : null,
-        oldonresize : null,
-        oldonmousemove : null,
         paused : true,
         particleCount : 30000,
         particles : [],
@@ -112,37 +111,36 @@ function ($scope,   $rootScope) {
 
     function handleResize () {
         // fetch the client div size
-        data.width = data.div.clientWidth;
-        data.height = data.div.clientHeight;
+        data.width = data.viewAreaDiv.width() - 100;
+        data.height = data.viewAreaDiv.height() - 100;
         // resize the canvas to match
-        data.canvas.width = data.width - 10;
-        data.canvas.height = data.height - 10;
+
+        data.canvas.width(data.width);
+        data.canvas.get(0).width = data.width;
+
+        data.canvas.height(data.height);
+        data.canvas.get(0).height = data.height;
+
         // and empty the canvas.
         data.ctx.fillRect(0,0,data.width,data.height);
         data.imgData = data.ctx.getImageData(0,0,data.width,data.height);
         data.dataArr = data.imgData.data;
     }
 
-    if (data.canvas) {
-        data.ctx = data.canvas.getContext( '2d' );
-    }
-    if (data.div) {
-        data.width = data.div.clientWidth;
-        data.height = data.div.clientHeight;
-        data.oldonresize = window.onresize;
-        window.onresize = function() {
-            $rootScope.$apply(handleResize);
-        };
-        data.oldonmousemove = data.div.onmousemove;
-        data.div.onmousemove = handleMouseMove;
-        data.canvas.onmouseenter = function() {
-            data.paused = false;
-            loop();
-        };
-        data.canvas.onmouseleave = function() {
-            data.paused = true;
-        };
-    }
+    data.ctx = data.canvas.get(0).getContext( '2d' );
+
+    window.onresize = function() {
+        $rootScope.$apply(handleResize);
+    };
+
+    data.canvas.on('mousemove', handleMouseMove);
+    data.canvas.on('mouseenter', function() {
+        data.paused = false;
+        loop();
+    });
+    data.canvas.on('mouseleave', function() {
+        data.paused = true;
+    });
 
     gStarFieldData = data;
     $scope.data = data;
@@ -161,8 +159,7 @@ function ($scope,   $rootScope) {
     loop();
     
     $scope.$on('$destroy', function() {
-        window.onresize = data.oldonresize;
-        data.div.onmousemove = data.oldonmousemove;
+        data.viewAreaDiv.off('resize');
         // make sure animation frame stops
         data.paused = true;
     });

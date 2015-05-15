@@ -19,6 +19,7 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
+/*
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -40,7 +41,9 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+*/
+;
 
 /*
   Local Variables:
