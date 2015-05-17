@@ -457,6 +457,7 @@ module.exports = function (grunt) {
 /pfk-hover-menu. not allowed/,
 /Attribute .nohover. not allowed/,
 /Element .pfk-range-selector. not allowed/,
+/Element .pfk-view-size-selector. not allowed/,
 		    ]
 	        },
 	        src: 'app/**/*.html'

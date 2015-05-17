@@ -47,12 +47,78 @@ body {
     padding: 0.2em 0;
 }
 
-.nav {
+.fullsizePage {
+    order:1;
+    flex-grow:1;
+    flex-shrink:1;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+}
+
+.mediumNav {
     order:1;
     flex-grow:0;
     flex-shrink:0;
     height:$navHeight;
-/*    font-family: museo-sans, sans-serif; */
+    font-family: 'Campton Book';
+    font-size: 21px;
+    color:#c0c0c0;
+    background: $navBgColor;
+    ul {
+        padding-left:5px;
+        margin-top:5px;
+        margin-bottom:0px;
+    }
+    li:first-child {
+        font-size:30px;
+        margin-right:40px;
+        padding:0px;
+    }
+    li {
+        display:inline-block;
+        transition:background 0.5s, border-color 0.8s;
+        padding-right:15px;
+        padding-left:15px;
+        border-bottom-style:solid;
+        border-bottom-width:5px;
+        border-bottom-color:rgba(0,0,0,0);
+        cursor:pointer;
+    }
+    li[nohover]:hover {
+        background:$navBgColor;
+        border-bottom-color:rgba(0,0,0,0);
+        cursor:initial;
+    }
+    li:hover {
+        border-bottom-color:#c0c0c0;
+    }
+    .active a {
+        color:#ffffff;
+    }
+    .active span {
+        color:#ffffff;
+    }
+    .active {
+        border-bottom-color:red;
+    }
+    a {
+        color:#c0c0c0;
+        text-decoration:none; /* dont put underlines */
+        outline-style:none; /* dont put a box around it when you click it */
+    }
+    span {
+        color:#c0c0c0;
+        outline-style:none; /* dont put a box around it when you click it */
+    }
+
+}
+
+.fullNav {
+    order:1;
+    flex-grow:0;
+    flex-shrink:0;
+    height:$navHeight;
     font-family: 'Campton Book';
     font-size: 21px;
     color:#c0c0c0;

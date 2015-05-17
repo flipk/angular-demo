@@ -1,0 +1,34 @@
+<div class="fullsizePage" ng-controller="NavbarCtrl">
+
+  <!-- Add your site or application content here -->
+  <div class="mediumNav">
+    <ul>
+      <li nohover> PFK </li>
+      <li> <a href="http://www.pfk.org"> www.pfk.org </a> </li>
+      <li ng-repeat="view in views" ng-class="{active:view===currentView}">
+        <span ng-click="updateView($index)">
+          {{view.view}}
+        </span>
+      </li>
+    </ul>
+  </div> <!-- nav -->
+
+  <div class="container" ng-include="currentView.path"></div>
+
+  <div class="footer">
+    <p>
+      <span class="typcn typcn-arrow-right-thick"></span>
+      PFK
+      <span class="typcn typcn-arrow-left-thick"></span>
+      the future was scheduled for yesterday, but the schedule slipped
+    </p>
+  </div> <!-- footer -->
+
+  <!--
+      Local Variables:
+      mode: html
+      indent-tabs-mode: nil
+      tab-width: 8
+      End:
+    -->
+</div>

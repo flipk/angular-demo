@@ -21,51 +21,29 @@
     <link rel="stylesheet" href="styles/starfield.css">
     <link rel="stylesheet" href="styles/rangeselector.css">
     <!-- endbuild -->
+    <!-- in order to make ng-cloak work properly, we need
+         the css rule for [ng-cloak] inline here so that it is
+         rendered blank from the moment the page opens. -->
+    <style> [ng-cloak] { display: none !important; } </style>
   </head>
-  <body ng-cloak ng-app="angulardemoApp" ng-controller="NavbarCtrl">
+  <body ng-cloak ng-app="angulardemoApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser.
         Please <a href="http://browsehappy.com/">upgrade your browser</a> to
         improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="nav">
-      <ul>
-        <li nohover> PFK </li>
-        <li> <a href="http://www.pfk.org"> www.pfk.org </a> </li>
-        <li ng-repeat="view in views" ng-init="index = $index"
-            ng-class="{active:view===currentView}">
-          <span ng-click="updateView(index)">
-            {{view.view}}
-          </span>
-        </li>
-      </ul>
-    </div> <!-- nav -->
-
-    <div class="container">
-      <div class="leftSide"></div>
-      <!-- ng-view -->
-      <div id="viewArea" class="viewArea">
-        <div class="viewAreaVirtual"
-             ng-style="{transform:('translate(-'+currentView.left+')')}">
-          <div class="viewAreaPhysical" ng-repeat="view in views"
-               ng-style="{left:view.left}">
-            <ng-include src="view.path">
-            </ng-include>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer">
-      <p>
-        <span class="typcn typcn-arrow-right-thick"></span>
-        PFK
-        <span class="typcn typcn-arrow-left-thick"></span>
-        the future was scheduled for yesterday, but the schedule slipped
-      </p>
-    </div>
+    <!-- turns out we dont need ng-cloak using this technique
+         because the custom directive doesnt happen anyway until 
+         angular has compiled this document, and until that
+         happens the only thing seen in the browser is a 
+         completely empty page. -->
+    <pfk-view-size-selector
+       large-width-threshold="1040"   large-path="fullsize.html"
+       medium-width-threshold="500"   medium-path="mediumsize.html"
+                                      small-path="smallsize.html"
+    >
+    </pfk-view-size-selector>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -88,12 +66,14 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+
     <script src="scripts/app.js"></script>
     <script src="scripts/services/utilities.js"></script>
     <script src="scripts/directives/rockerswitch.js"></script>
     <script src="scripts/directives/slidermenu.js"></script>
     <script src="scripts/directives/hovermenu.js"></script>
     <script src="scripts/directives/rangeselector.js"></script>
+    <script src="scripts/directives/viewsizeselector.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/buttons.js"></script>

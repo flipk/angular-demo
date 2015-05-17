@@ -13,20 +13,20 @@ function ($scope  /*,utilities*/) {
 
     $scope.views = [
         {
-            view: 'home'     ,
-            path: '/views/main.html'     ,
+            view: 'home',
+            path: 'views/main.html',
             left: '0%'
         }, {
-            view: 'buttons'  ,
-            path: '/views/buttons.html'  ,
+            view: 'buttons',
+            path: 'views/buttons.html',
             left: '100%'
         }, {
             view: 'starfield',
-            path: '/views/starfield.html',
+            path: 'views/starfield.html',
             left: '200%'
         }, {
-            view: 'about'    ,
-            path: '/views/about.html'    ,
+            view: 'about',
+            path: 'views/about.html',
             left: '300%'
         },
     ];

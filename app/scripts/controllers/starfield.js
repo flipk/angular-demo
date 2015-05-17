@@ -2,10 +2,9 @@
 
 var gStarFieldData = null;
 
-
 angular.module('angulardemoApp').controller('StarfieldCtrl',
-       [ '$scope', '$rootScope',
-function ($scope,   $rootScope) {
+       [ '$scope', '$rootScope', 'utilities',
+function ($scope,   $rootScope,   utilities) {
 
     var data = {
         canvas : angular.element('#starfield-canvas'),
@@ -109,7 +108,7 @@ function ($scope,   $rootScope) {
         data.mouseY = evt.offsetY;
     }
 
-    function handleResize () {
+    function _handleResize () {
         // fetch the client div size
         data.width = data.viewAreaDiv.width() - 100;
         data.height = data.viewAreaDiv.height() - 100;
@@ -129,9 +128,11 @@ function ($scope,   $rootScope) {
 
     data.ctx = data.canvas.get(0).getContext( '2d' );
 
-    window.onresize = function() {
-        $rootScope.$apply(handleResize);
-    };
+    function handleResize() {
+        $rootScope.$apply(_handleResize);
+    }
+
+    utilities.onWindowSize(handleResize);
 
     data.canvas.on('mousemove', handleMouseMove);
     data.canvas.on('mouseenter', function() {
@@ -144,7 +145,7 @@ function ($scope,   $rootScope) {
 
     gStarFieldData = data;
     $scope.data = data;
-    handleResize();
+    _handleResize();
 
     // fill the particle array with random particles
 
@@ -159,7 +160,7 @@ function ($scope,   $rootScope) {
     loop();
     
     $scope.$on('$destroy', function() {
-        data.viewAreaDiv.off('resize');
+        utilities.offWindowSize(handleResize);
         // make sure animation frame stops
         data.paused = true;
     });
