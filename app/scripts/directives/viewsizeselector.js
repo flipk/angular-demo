@@ -1,10 +1,12 @@
 'use strict';
 
 // usage:
-//    <pfk-view-size-selector 
-//      path="/some/path"
-//      >
-//
+//  <pfk-view-size-selector
+//     large-width-threshold="1040"   large-path="fullsize.html"
+//     medium-width-threshold="500"   medium-path="mediumsize.html"
+//                                    small-path="smallsize.html"
+//  >
+//  </pfk-view-size-selector>
 
 var gViewSizeSelector = null;
 
