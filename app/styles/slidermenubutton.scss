@@ -32,7 +32,7 @@ $menuBorderColor: #c0c0c0;
         left:4px;
         top:5px; /* this gets overridden by the
                  // slider-checked-item mixin below */
-        transition: top 0.3s; /* gentle motion */
+        @include do-transition(top 0.3s); /* gentle motion */
         border-radius: 15px;
         /* this gives the slider the appearance
         // of having a lens or window. */

@@ -19,7 +19,8 @@
         width: 48%;
         height: 90%;
         background-color: $buttonColor;
-        transition: transform 300ms ease, box-shadow 300ms ease;
+        @include do-transition(transform 300ms ease,
+                               box-shadow 300ms ease);
         
         &:before {
             position: absolute;
@@ -29,7 +30,8 @@
             font-family: "Open Sans";
             font-weight: 800;
             font-size: 12px;
-            transition: text-shadow 800ms ease 100ms, color 800ms ease 100ms;
+            @include do-transition(text-shadow 800ms ease 100ms,
+                                   color 800ms ease 100ms);
         }
         
         &:after {
@@ -41,7 +43,7 @@
             background: radial-gradient(ellipse at center,
                                         rgba(255,255,255,0.5) 0%,
                                         transparent 50%);
-            transition: opacity 300ms ease;
+            @include do-transition(opacity 300ms ease);
         }
         
         &:first-of-type {

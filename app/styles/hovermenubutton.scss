@@ -24,7 +24,7 @@ $menuBorderColor: #c0c0c0;
     border-color:$menuBorderColor;
     border-style:solid;
     border-radius:10px;
-    transition:top 1s;
+    @include do-transition(top 1s);
 
     input {
       /* dont display the stupid radio button.
@@ -104,7 +104,7 @@ $hoverMenuItemHeight: 22px;
         border-radius:0px;
         opacity:0;
         z-index:100; /* put on top of other objects */
-        transition:top 0.3s, opacity 0.5s;
+        @include do-transition(top 0.3s, opacity 0.5s);
         @include user-select-none();
         &:first-of-type {
           /* when expanded, the menu has nice

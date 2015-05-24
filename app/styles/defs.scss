@@ -21,6 +21,24 @@ $buttonLightOff:  #FF4847;
   filter:$stuff;
 }
 
+@mixin do-transition($stuff...) {
+    transition: $stuff;
+    -webkit-transition: $stuff;
+    -moz-transition: $stuff;
+}
+
+@mixin flex-parent($dir) { /* dir is row or column */
+    display:flex;
+    flex-direction:$dir;
+    align-items:stretch;
+}
+
+@mixin flex-child($grow,$order) {
+    flex-grow:$grow;
+    flex-shrink:$grow;
+    order:$order;
+}
+
 /*
   Local Variables:
   mode: css

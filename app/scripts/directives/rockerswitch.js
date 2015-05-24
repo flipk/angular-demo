@@ -7,7 +7,11 @@
 //    evt = 'ON'            and data = { id }
 //    evt = 'OFF'           and data = { id }
 //    evt = 'DESTRUCTED'    and data = { id }
-//    evt = 'CONSTRUCTED'   and data = { id, ? }
+//    evt = 'CONSTRUCTED'   and data = { id, setOnColor, setOffColor }
+//
+// where
+//   setOnColor(colorName)
+//   setOffColor(colorName)
 
 /**
  * @ngdoc directive
@@ -39,9 +43,17 @@ function () {
                 }
             };
 
+            function setOnColor() {
+                // not implemented
+            }
+            function setOffColor() {
+                // not implemented
+            }
+
             $scope.callback('CONSTRUCTED', {
                 id : $scope.id,
-
+                setOnColor: setOnColor,
+                setOffColor: setOffColor,
             });
             $scope.$on('$destroy',function() {
                 $scope.callback('DESTRUCTED', { id : $scope.id });
