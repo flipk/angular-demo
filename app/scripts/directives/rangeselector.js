@@ -97,7 +97,18 @@ function ($interval,   service) {
             $scope.dragEndTickNumber = 0; // tick#
 
             $scope.tickPositions = [];
-            // TODO $scope.highlightTickPositions = [];
+
+            function TickPos(pos,width) {
+                this.pos = pos;
+                this.width = width;
+            }
+
+            $scope.highlightTickPositions = [];
+
+            function HighlightTick(pos,width) {
+                this.pos = pos;
+                this.width = width;
+            }
 
             function resetWindows() {
                 $scope.displaySliderWindow = false;
@@ -471,7 +482,6 @@ function ($interval,   service) {
 
             function rangeDragMode(startTick, endTick, tickWidth) {
                 $scope.dragCursorWidth = indexToPx(tickWidth);
-                console.log('width',tickWidth,$scope.dragCursorWidth);
                 if (startTick !== null && endTick !== null) {
                     resetWindows();
                     $scope.dragStartTickNumber = startTick;
@@ -490,16 +500,25 @@ function ($interval,   service) {
                 $scope.setState(states.RANGEPROGRESS);
             }
 
-            function setTicks(ticks) {
+            function setTicks(ticks,tickWidth) {
                 $scope.tickPositions.length = 0;
+                var widthPixels = indexToPx(tickWidth);
                 ticks.forEach(function(t) {
                     var pos = indexToPx(tickToIndex(t));
-                    $scope.tickPositions.push(pos);
+                    $scope.tickPositions.push(
+                        new TickPos(pos,widthPixels));
                 });
             }
 
-            function setHighlightTicks(/*ticks*/) {
-                // TODO
+            function setHighlightTicks(ticks,tickWidth) {
+                $scope.highlightTickPositions.length = 0;
+                var widthPx = indexToPx(tickWidth);
+                ticks.forEach(function(t) {
+                    // -1 to account for border width
+                    var pos = indexToPx(tickToIndex(t)) - 1;
+                    $scope.highlightTickPositions.push(
+                        new HighlightTick(pos,widthPx));
+                });
             }
 
             $scope.setState(states.BLANK);

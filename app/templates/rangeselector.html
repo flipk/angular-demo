@@ -1,11 +1,13 @@
 <div class="pfkRangeSelector">
   <!-- this is the normal slider indicator -->
   <div ng-show="displaySliderWindow" class="sliderWindow"
-       ng-style="{left:sliderWindowLeft,width:sliderWindowWidth}">
+       ng-style="{left:sliderWindowLeft,
+                 width:sliderWindowWidth}">
   </div>
   <!-- when the slider is being dragged, this is the one that moves -->
   <div ng-show="displayMovingSliderWindow" class="movingSliderWindow"
-       ng-style="{left:movingSliderWindowLeft,width:sliderWindowWidth}">
+       ng-style="{left:movingSliderWindowLeft,
+                 width:sliderWindowWidth}">
   </div>
   <!-- invisible div on top that tracks the mouse -->
   <div ng-show="displayMousePosSensor" class="mousePosSensor">
@@ -18,12 +20,14 @@
   </div>
   <!-- display the integer tick number next to the above line -->
   <div class="mousePosIndicator"
-       ng-style="{left:mousePosTickIndPos,opacity:displayMousePosInd}">
+       ng-style="{left:mousePosTickIndPos,
+                 opacity:displayMousePosInd}">
     {{mousePosTickNumber}}
   </div>
   <!-- when dragging out a range, this is the box that resizes -->
   <div ng-show="displayDragRangeWindow" class="dragRangeWindow"
-       ng-style="{left:dragRangeWindowLeft,width:dragRangeWindowWidth}">
+       ng-style="{left:dragRangeWindowLeft,
+                 width:dragRangeWindowWidth}">
   </div>
   <!-- display integer tick number next to left edge of drag range -->
   <div ng-show="displayDragStartIndicator" class="dragStartIndicator"
@@ -35,9 +39,16 @@
        ng-style="{left:dragEndIndicatorPos}">
     {{dragEndTickNumber}}
   </div>
-  <!-- highlight the individual ticks -->
-  <div ng-repeat="tickPos in tickPositions track by $index" class="tickIndicator"
-       ng-style="{left:tickPos}">
+  <!-- display ticks -->
+  <div ng-repeat="tick in tickPositions track by $index"
+       class="tickIndicator"
+       ng-style="{left:tick.pos,
+                 width:tick.width}">
+  </div>
+  <!-- highlight ticks -->
+  <div ng-repeat="tick in highlightTickPositions track by $index"
+       class="tickHighlight" ng-style="{left:tick.pos,
+                                       width:tick.width}">
   </div>
   <!--
       Local Variables:

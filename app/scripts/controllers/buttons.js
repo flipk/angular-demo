@@ -114,11 +114,22 @@ function ($scope,   $interval) {
     $scope.dispTicks = false;
     $scope.doDispTicks = function () {
         if ($scope.dispTicks) {
-            $scope.ranges.range0.setTicks([ 16, 29, 55, 116 ]);
-            $scope.ranges.range1.setTicks([ 750, 755, 770, 800 ]);
+            if ($scope.radioButton.selection === 1) {
+                $scope.ranges.range0.setTicks([ 16, 29, 55, 116 ], 1);
+            } else {
+                $scope.ranges.range0.setTicks([ 1, 77 ], 25);
+            }
+            $scope.ranges.range1.setTicks([ 750, 755, 770, 800 ], 5);
+            if ($scope.radioButton.selection === 3) {
+                $scope.ranges.range0.setHighlightTicks([ 1, 77 ], 25);
+                $scope.ranges.range1.setHighlightTicks(
+                    [750, 755, 770, 800], 5);
+            }
         } else {
             $scope.ranges.range0.setTicks([]);
             $scope.ranges.range1.setTicks([]);
+            $scope.ranges.range0.setHighlightTicks([]);
+            $scope.ranges.range1.setHighlightTicks([]);
         }
     };
 

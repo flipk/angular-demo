@@ -4,10 +4,11 @@
 $rangeSelectorHeight: 45px;
 $rangeSelectorWidth: 600px;
 $rangeSelectorBg: #282828;
-$windowBg:  #383858;
+$windowBg:  rgba(56,56,88,0.7);
 $windowSliderBg:  rgba(70,70,100,0.7);
 $mouseLineColor: #ffffff;
 $tickColor: #808080;
+$tickHighlightColor: #ffffff;
 
 .pfkRangeSelector {
     position:relative;
@@ -37,10 +38,21 @@ $tickColor: #808080;
         height:$rangeSelectorHeight;
         top:0px;
         left:0px; /* code moves this */
-        z-index:20;
+        z-index:25;
         transition:opacity 0.3s;
         background:$windowSliderBg;
         box-shadow:inset 0 0 18px 5px rgba(255,255,255,0.5);
+    }
+
+    .mousePosIndicator {
+        display:block;
+        position:absolute;
+        height:20px;
+        width:35px;
+        top:0px;
+        left:0px; /* code moves this */
+        z-index:25;
+        transition:opacity 0.3s;
     }
 
     .sliderWindow {
@@ -62,20 +74,9 @@ $tickColor: #808080;
         width:50px;
         top:0px;
         left:25px;
-        z-index:30;
+        z-index:22;
         background:$windowSliderBg;
         box-shadow:inset 0 0 18px 5px rgba(255,255,255,0.5);
-        transition:opacity 0.3s;
-    }
-
-    .mousePosIndicator {
-        display:block;
-        position:absolute;
-        height:20px;
-        width:35px;
-        top:0px;
-        left:0px; /* code moves this */
-        z-index:25;
         transition:opacity 0.3s;
     }
 
@@ -85,7 +86,7 @@ $tickColor: #808080;
         width:50px;
         top:0px;
         left:25px;
-        z-index:15;
+        z-index:20;
         background:$windowBg;
         box-shadow:inset 0 0 18px 5px rgba(255,255,255,0.2);
     }
@@ -115,12 +116,26 @@ $tickColor: #808080;
         display:block;
         position:absolute;
         height:$rangeSelectorHeight;
-        width:1px;
         background: $tickColor;
         top:0px;
         left:0px; /* code moves this */
-        z-index:25;
+        width:1px; /* code moves this */
+        z-index:15;
     }
+
+    .tickHighlight {
+        display:block;
+        position:absolute;
+        height:$rangeSelectorHeight - 2; /* account for border */
+        border-width:1px;
+        border-color: $tickHighlightColor;
+        border-style: solid;
+        top:0px;
+        left:0px; /* code moves this */
+        width:1px; /* code moves this */
+        z-index:15;
+    }
+
 }
 
 /*
