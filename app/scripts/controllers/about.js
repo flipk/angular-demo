@@ -7,14 +7,14 @@
  * # AboutCtrl
  * Controller of the angulardemoApp
  */
-angular.module('angulardemoApp')
-  .controller('AboutCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+angular.module('angulardemoApp').controller('AboutCtrl',
+       [ '$scope',
+function ($scope) {
+
+    $scope.$on('$destroy', function() {
+    });
+
+}]);
 
 /*
   Local Variables:

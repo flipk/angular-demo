@@ -1,4 +1,5 @@
-<div ng-controller="StarfieldCtrl" id="starfield-div" class="starfield">
+<div ng-if="starfieldView.show" id="starfield-div" class="starfield"
+     ng-controller="StarfieldCtrl">
   <canvas id="starfield-canvas"></canvas>
   <!--
       Local Variables:

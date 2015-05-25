@@ -1,4 +1,4 @@
-<div ng-controller="ButtonsCtrl" class="buttonView">
+<div ng-if="buttonsView.show" class="buttonView" ng-controller="ButtonsCtrl">
   <div class="firstButton">
     click this button:
     <pfk-rocker-switch id="switch0" callback="switchCallback">

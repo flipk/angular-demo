@@ -158,7 +158,7 @@ function ($scope,   $rootScope,   utilities) {
         ]);
     }
     loop();
-    
+   
     $scope.$on('$destroy', function() {
         utilities.offWindowSize(handleResize);
         // make sure animation frame stops
