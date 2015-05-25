@@ -70,6 +70,21 @@ function ($scope,   $interval) {
                                    data.index +
                                    ' on the right');
             $scope.radioButton.selection = data.index;
+
+            switch (data.index) {
+            case 0:
+            case 1:    
+            case 2:
+                $scope.switchData.switch0.setOnStuff('OK','green');
+                $scope.switchData.switch0.setOffStuff('FREE');
+                break;
+            case 3:
+            case 4:
+                $scope.switchData.switch0.setOnStuff('WAIT','red');
+                $scope.switchData.switch0.setOffStuff('BUSY');
+                break;
+            }
+
             break;
         }
     };
