@@ -85,14 +85,14 @@ function ($scope,   $interval) {
         }
     };
 
-    $scope.switchData = null;
+    $scope.switchData = {};
     $scope.switchCallback = function(evt,data) {
         switch (evt) {
         case 'CONSTRUCTED':
-            $scope.switchData = data;
+            $scope.switchData[data.id] = data;
             break;
         case 'DESTRUCTED':
-            //nothing
+            delete $scope.switchData[data.id];
             break;
         case 'ON':
             msgArea.displayMessage(

@@ -7,11 +7,12 @@
 //    evt = 'ON'            and data = { id }
 //    evt = 'OFF'           and data = { id }
 //    evt = 'DESTRUCTED'    and data = { id }
-//    evt = 'CONSTRUCTED'   and data = { id, setOnColor, setOffColor }
+//    evt = 'CONSTRUCTED'   and data = { id, setOnStuff, setOffStuff }
 //
 // where
-//   setOnColor(colorName)
-//   setOffColor(colorName)
+//   setState(value)
+//   setOnStuff(text,color) WAIT, OK, red, green
+//   setOffStuff(text) BUSY, FREE
 
 /**
  * @ngdoc directive
@@ -25,6 +26,7 @@ function () {
     return {
         restrict: 'E',
         templateUrl: 'templates/rockerswitch.html',
+	replace:true,
         scope: {
             id       : '@id',
             callback : '=callback'
@@ -34,6 +36,10 @@ function () {
 //      }
         controller : function($scope) { // $element $attrs
 
+            $scope.onText = 'ON';
+            $scope.onColorGreen = true;
+            $scope.onColorRed = false;
+            $scope.offText = 'OFF';
             $scope.value = false;
             $scope.click = function() {
                 if ($scope.value) {
@@ -43,17 +49,28 @@ function () {
                 }
             };
 
-            function setOnColor() {
-                // not implemented
+	    function setState(value) {
+		$scope.value = value;
+	    }
+            function setOnStuff(text,color) {
+                $scope.onText = text;
+                if (color === 'red') {
+                    $scope.onColorRed = true;
+                    $scope.onColorGreen = false;
+                } else {
+                    $scope.onColorRed = false;
+                    $scope.onColorGreen = true;
+                }
             }
-            function setOffColor() {
-                // not implemented
+            function setOffStuff(text) {
+                $scope.offText = text;
             }
 
             $scope.callback('CONSTRUCTED', {
                 id : $scope.id,
-                setOnColor: setOnColor,
-                setOffColor: setOffColor,
+                setState: setState,
+                setOnStuff: setOnStuff,
+                setOffStuff: setOffStuff,
             });
             $scope.$on('$destroy',function() {
                 $scope.callback('DESTRUCTED', { id : $scope.id });

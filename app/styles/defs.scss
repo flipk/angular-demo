@@ -5,10 +5,6 @@ $navBgHoverColor: #303030;
 $navHeight: 50px;
 $footerBorder: #e5e5e5;
 
-$buttonColor: #1C1D1F;
-$buttonLightOn:   #93C913;
-$buttonLightOff:  #FF4847;
-
 @mixin user-select-none() {
     -webkit-user-select: none;
     -moz-user-select: none;

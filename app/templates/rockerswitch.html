@@ -1,8 +1,12 @@
-<div>
-  <label class="rockerSwitch">
+<div class="rockerSwitch">
+  <label>
     <input type="checkbox" ng-model="value" ng-click="click()"/>
-    <span></span>
-    <span></span>
+    <div class="left" ng-class="{red:onColorRed,green:onColorGreen}">
+      {{onText}}
+    </div>
+    <div class="right">
+      {{offText}}
+    </div>
   </label>
   <!--
       Local Variables:
