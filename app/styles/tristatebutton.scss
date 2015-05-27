@@ -9,7 +9,6 @@ $tristateButtonHoverColor: #0066cc;
     position:relative;
     display:inline-block;
     outline-style:none;
-    @include do-transition(transform 0.1s);
     &.ng-click-active > .tbOuter {
         transform: scale(0.8,0.8);
     }
@@ -20,6 +19,7 @@ $tristateButtonHoverColor: #0066cc;
         display:inline-block;
         background-color: $tristateButtonForeground;
         outline-style:none;
+        @include do-transition(transform 0.1s);
         @include user-select-none();
         .tbInner {
             position:absolute;
