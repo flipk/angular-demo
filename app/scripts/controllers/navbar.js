@@ -52,7 +52,12 @@ function ($scope ,  $interval /*,utilities*/) {
 
     $scope.updateView = function (index) {
         var oldView = $scope.currentView;
-        $scope.currentView = $scope.views[index];
+        var newView = $scope.views[index];
+        if (oldView === newView) {
+            // the user clicked on the current view, ignore it
+            return;
+        }
+        $scope.currentView = newView;
         if (promiseHolder.promise) {
             // if a timer is running, cancel it and 
             // do its work now.
