@@ -1,7 +1,5 @@
 'use strict';
 
-var gTriState = [];
-
 // usage:
 //    <pfk-tristate-button id="SOMESTRING" callback="parentCallback">
 //
@@ -79,12 +77,10 @@ function () {
                 setState : setState
             });
 
-            gTriState.push($scope);
             $scope.$on('$destroy', function() {
                 $scope.callback('DESTRUCTED', {
                     id : $scope.id
                 });
-                // really should remove from gTriState
             });
         }
     };
