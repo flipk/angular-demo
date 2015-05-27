@@ -92,11 +92,22 @@ function ($scope,   $interval) {
     $scope.do25 = false;
 
     var tickWidth = 1; //25
-    $scope.do25Click = function() {
-        if ($scope.do25) {
-            tickWidth = 25;
-        } else {
-            tickWidth = 1;
+
+    $scope.do25Callback = function(evt,data) {
+        switch (evt) {
+        case 'CONSTRUCTED':
+            data.setState(false);
+            $scope.do25 = false;
+            break;
+        case 'DESTRUCTED':
+            break;
+        case 'CLICKED':
+            if (tickWidth === 25) {
+                tickWidth = 1;
+            } else {
+                tickWidth = 25;
+            }
+            break;
         }
     };
 
@@ -127,24 +138,35 @@ function ($scope,   $interval) {
     };
 
     $scope.dispTicks = false;
-    $scope.doDispTicks = function () {
-        if ($scope.dispTicks) {
-            if ($scope.radioButton.selection === 1) {
-                $scope.ranges.range0.setTicks([ 16, 29, 55, 116 ], 1);
+    $scope.dispTicksCallback = function(evt,data) {
+        switch (evt) {
+        case 'CONSTRUCTED':
+            data.setState(false);
+            $scope.dispTicks = false;
+            break;
+        case 'DESTRUCTED':
+            break;
+        case 'CLICKED':
+            $scope.dispTicks = data.newValue;
+            if ($scope.dispTicks) {
+                if ($scope.radioButton.selection === 1) {
+                    $scope.ranges.range0.setTicks([ 16, 29, 55, 116 ], 1);
+                } else {
+                    $scope.ranges.range0.setTicks([ 1, 77 ], 25);
+                }
+                $scope.ranges.range1.setTicks([ 750, 755, 770, 800 ], 5);
+                if ($scope.radioButton.selection === 3) {
+                    $scope.ranges.range0.setHighlightTicks([ 1, 77 ], 25);
+                    $scope.ranges.range1.setHighlightTicks(
+                        [750, 755, 770, 800], 5);
+                }
             } else {
-                $scope.ranges.range0.setTicks([ 1, 77 ], 25);
+                $scope.ranges.range0.setTicks([]);
+                $scope.ranges.range1.setTicks([]);
+                $scope.ranges.range0.setHighlightTicks([]);
+                $scope.ranges.range1.setHighlightTicks([]);
             }
-            $scope.ranges.range1.setTicks([ 750, 755, 770, 800 ], 5);
-            if ($scope.radioButton.selection === 3) {
-                $scope.ranges.range0.setHighlightTicks([ 1, 77 ], 25);
-                $scope.ranges.range1.setHighlightTicks(
-                    [750, 755, 770, 800], 5);
-            }
-        } else {
-            $scope.ranges.range0.setTicks([]);
-            $scope.ranges.range1.setTicks([]);
-            $scope.ranges.range0.setHighlightTicks([]);
-            $scope.ranges.range1.setHighlightTicks([]);
+            break;
         }
     };
 

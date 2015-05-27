@@ -1,0 +1,24 @@
+<div class="tristatebutton"
+       ng-style="{height:buttonSize,width:wholeSize}"
+     ng-click="click()">
+  <div class="tbOuter"
+       ng-style="{width:buttonSize,height:buttonSize,borderRadius:buttonSize/4}">
+    <div class="tbInner"
+         ng-style="{borderRadius:buttonSize/4*0.9}">
+      <div class="tbInnerInner"
+           ng-class="{partial:(value===1),active:(value===2||value===true)}"
+           ng-style="{borderRadius:buttonSize/4*0.9*0.8}">
+      </div>
+    </div>
+  </div>
+  <div class="tbLabel" ng-style="{left:buttonSize,width:labelWidth}"
+       ng-transclude>
+  </div>
+  <!--
+      Local Variables:
+      mode: html
+      indent-tabs-mode: nil
+      tab-width: 8
+      End:
+    -->
+</div>

@@ -1,0 +1,67 @@
+
+@import "defs.scss";
+
+$tristateButtonForeground: #ade5ff;
+$tristateButtonBackground: $bgColor; /*#1c1d1f */
+$tristateButtonHoverColor: #0066cc;
+
+.tristatebutton {
+    position:relative;
+    display:inline-block;
+    outline-style:none;
+    @include do-transition(transform 0.1s);
+    &.ng-click-active > .tbOuter {
+        transform: scale(0.8,0.8);
+    }
+    .tbOuter {
+        position:absolute;
+        top:0px;
+        left:0px;
+        display:inline-block;
+        background-color: $tristateButtonForeground;
+        outline-style:none;
+        @include user-select-none();
+        .tbInner {
+            position:absolute;
+            background-color:$tristateButtonBackground;
+            outline-style:none;
+            top:5%;
+            left:5%;
+            width:90%;
+            height:90%;
+            .tbInnerInner {
+                position:absolute;
+                background-color:$tristateButtonBackground;
+                outline-style:none;
+                top:10%;
+                left:10%;
+                width:80%;
+                height:80%;
+                cursor:pointer;
+                @include do-transition(all 0.3s);
+                &:hover {
+                    box-shadow:inset 0 0 10px 1px $tristateButtonHoverColor;
+                }
+                &.partial {
+                    background-color: $tristateButtonHoverColor;
+                }
+                &.active {
+                    background-color: $tristateButtonForeground;
+                }
+            }
+        }
+    }
+    .tbLabel {
+        position:absolute;
+        top:0px;
+        margin-left:4px;
+    }
+}
+
+/*
+  Local Variables:
+  mode: css
+  indent-tabs-mode: nil
+  tab-width: 8
+  End:
+  */

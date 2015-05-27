@@ -28,6 +28,10 @@
             }
             .rightDemoButton2 {
                 @include flex-child(0,2);
+                height:30px;
+            }
+            .rightDemoButton3 {
+                @include flex-child(0,3);
                 height:115px;
             }
             .rightDemoInfo {

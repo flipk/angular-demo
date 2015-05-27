@@ -26,6 +26,9 @@ function () {
 
         // TODO learn what   require:'sibling'  or require:'^parent'  means
 
+// NOTE there's also require:'?attribute' which allows adjacent attributes
+//      to get injected via otherInjectables.
+
         controller : function($scope
                               // ,$element,$attrs,$transclude
                               //,otherInjectables

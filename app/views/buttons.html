@@ -23,13 +23,16 @@
         </pfk-hover-menu>
       </div> <!-- rightDemoButton -->
       <div class="rightDemoButton2">
-        <input id="dispChannels" type="checkbox"
-               ng-model="dispTicks" ng-click="doDispTicks()">
-        <label for="dispChannels">display ticks</label>
-        <input id="do25" type="checkbox"
-               ng-model="do25" ng-click="do25Click()">
-        <label for="do25">do 25</label>
-        <br>
+        <pfk-tristate-button size=28 id="dispTicks" label-width="150"
+                             callback="dispTicksCallback">
+          display ticks
+        </pfk-tristate-button>
+        <pfk-tristate-button size=28 id="do25" label-width="150"
+                             callback="do25Callback">
+          do 25
+        </pfk-tristate-button>
+      </div> <!-- rightDemoButton2 -->
+      <div class="rightDemoButton3">
         <pfk-range-selector id="range0" callback="handleRangeEvent">
         </pfk-range-selector>
         <br>
