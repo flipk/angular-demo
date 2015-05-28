@@ -10,8 +10,8 @@ var gButtonsScope = null;
  * Controller of the angulardemoApp
  */
 angular.module('angulardemoApp').controller('ButtonsCtrl',
-       [ '$scope', '$interval',
-function ($scope,   $interval) {
+       [ '$scope', '$interval', 'pfkFiles',
+function ($scope,   $interval,   pfkFiles) {
 
     $scope.showCurrentMessage = 0;
     $scope.currentMessage = '';
@@ -230,6 +230,70 @@ function ($scope,   $interval) {
                 }
             }, 100, 0, true);
 
+            break;
+        }
+    };
+
+    $scope.modalOpen = false;
+    $scope.closeModal = function() {
+        $scope.modalOpen = false;
+    };
+    $scope.openModal = function() {
+        $scope.modalOpen = true;
+    };
+
+    $scope.fileList = [];
+
+    function FileEntry(file) {
+        this.selected = false;
+        this.name = file.name;
+        this.size = file.size;
+        this.stamp = (new Date(file.lastModified)).toUTCString();
+        this.file = file;
+        this.tristate = null;
+    }
+
+    function gotAFile(file) {
+        $scope.fileList.push(new FileEntry(file));
+    }
+
+    $scope.uploadButton = function(evt) {
+        pfkFiles.getFileFromUser(evt, gotAFile);
+    };
+    $scope.downloadButton = function() {
+        $scope.fileList.forEach(function(file) {
+            if (file.selected) {
+                pfkFiles.downloadFileToUser(file.file);
+                file.selected = false;
+                file.tristate.setState(false);
+            }
+        });
+    };
+    $scope.deleteButton = function() {
+        // we can't use forEach or every because
+        // the list is modified mid-loop.
+        for (var ind = 0; ind < $scope.fileList.length; ind++ ) {
+            // note that we use 'while' because the array
+            // gets shifted down when we splice(x,1), so
+            // we have to check the same position again.
+            while (ind < $scope.fileList.length &&
+                   $scope.fileList[ind].selected) {
+                $scope.fileList.splice(ind,1);
+            }
+        }
+    };
+    $scope.fileTristateCallback = function(evt,data) {
+        var fileEnt = $scope.fileList[parseInt(data.id)];
+        switch (evt) {
+        case 'CONSTRUCTED':
+            fileEnt.tristate = data;
+            fileEnt.tristate.setState(fileEnt.selected);
+            break;
+        case 'DESTRUCTED':
+            // anything?
+            break;
+        case 'CLICKED':
+            fileEnt.selected = data.newValue;
             break;
         }
     };

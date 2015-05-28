@@ -1,9 +1,6 @@
-<div ng-if="buttonsView.show" class="buttonView" ng-controller="ButtonsCtrl">
-  <div class="firstButton">
-    click this button:
-    <pfk-rocker-switch id="switch0" callback="switchCallback">
-    </pfk-rocker-switch>
-  </div>
+<div ng-if="buttonsView.show" class="buttonView"
+     ng-controller="ButtonsCtrl">
+
   <div class="secondGroup"> <!-- two menu thingies side by side -->
     <div class="secondGroupFirstMenu"> <!-- first menu thingy -->
       <p>selection = {{radioButton.selection}}</p>
@@ -15,6 +12,13 @@
       </pfk-slider-menu>
     </div> <!-- done first menu thingy -->
     <div class="secondGroupSecondMenu"> <!-- second menu thingy -->
+
+      <div class="myrocker">
+        click this button:
+        <pfk-rocker-switch id="switch0" callback="switchCallback">
+        </pfk-rocker-switch>
+      </div>
+
       <div class="rightDemoButton">
         <p>this is a third button</p>
         <pfk-hover-menu
@@ -32,20 +36,84 @@
           do 25
         </pfk-tristate-button>
       </div> <!-- rightDemoButton2 -->
+
       <div class="rightDemoButton3">
         <pfk-range-selector id="range0" callback="handleRangeEvent">
         </pfk-range-selector>
         <br>
         <pfk-range-selector id="range1" callback="handleRangeEvent">
         </pfk-range-selector>
-      </div> <!-- rightDemoButton2 -->
+      </div> <!-- rightDemoButton3 -->
+
       <div class="rightDemoInfo">
         <p ng-style="{opacity:showCurrentMessage}">
           {{currentMessage}}
         </p>
       </div> <!-- rightDemoInfo -->
+
     </div> <!-- done second menu thingy -->
   </div> <!-- done second group -->
+
+  <div class="thirdGroup">
+    <div class="modalWindow" ng-class="{open:modalOpen}">
+      This is a modal.
+      <div class="acceptButton">
+        <pfk-typcn-button typcn="tick" click="closeModal()">
+        </pfk-typcn-button>
+      </div>
+      <div class="cancelButton">
+        <pfk-typcn-button typcn="times" click="closeModal()">
+        </pfk-typcn-button>
+      </div>
+    </div>
+    <div class="header">
+      <div class="testModal">
+        <pfk-typcn-button typcn="message-typing" click="openModal()">
+          make a modal
+        </pfk-typcn-button>
+      </div>
+      <div class="up">
+        <pfk-typcn-button typcn="upload" click="uploadButton()">
+          upload
+        </pfk-typcn-button>
+      </div> <!-- up -->
+
+      <div class="down">
+        <pfk-typcn-button typcn="download" click="downloadButton()">
+          download
+        </pfk-typcn-button>
+      </div> <!-- down -->
+
+      <div class="del">
+        <pfk-typcn-button typcn="times" click="deleteButton()">
+          delete
+        </pfk-typcn-button>
+      </div> <!-- down -->
+
+    </div> <!-- header -->
+    <div class="body">
+      <table>
+        <tr>
+          <td>  </td>
+          <td> name </td>
+          <td> size </td>
+          <td> modified </td>
+        </tr>
+        <tr ng-repeat="file in fileList">
+          <td>
+            <pfk-tristate-button size=18 id="{{$index}}"
+                                 label-width="0"
+                                 callback="fileTristateCallback">
+            </pfk-tristate-button>
+          </td>
+          <td> {{file.name}} </td>
+          <td> {{file.size}} </td>
+          <td> {{file.stamp}} </td>
+        </tr>
+      </table>
+    </div> <!-- body -->
+  </div> <!-- thirdGroup -->
+
   <!--
       Local Variables:
       mode: html

@@ -1,0 +1,44 @@
+
+@import "defs.scss";
+
+.typcnbutton {
+    position:relative;
+    outline-style:none;
+    .buttonBox {
+        position:absolute;
+        top:0px;
+        left:0px;
+        width:40px;
+        height:40px;
+        outline-style:none;
+        border-style:solid;
+        border-radius:9px;
+        border-width:1px;
+        text-align:center;
+        &:hover > .typcn {
+            transform:scale(1.2,1.2);
+        }
+        &.ng-click-active > .typcn {
+            transform:scale(0.8,0.8);
+        }
+        .typcn {
+            font-size:2.2em;
+            outline-style:none;
+            @include do-transition(transform 0.1s);
+        }
+    }
+    .label {
+        position:absolute;
+        outline-style:none;
+        top:10px;
+        left:50px;
+    }
+}
+
+/*
+  Local Variables:
+  mode: css
+  indent-tabs-mode: nil
+  tab-width: 8
+  End:
+  */

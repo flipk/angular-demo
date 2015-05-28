@@ -4,7 +4,7 @@
 //    <pfk-tristate-button id="SOMESTRING" callback="parentCallback">
 //
 //  parentCallback : function (evt, data)  where
-//   evt = 'CLICKED'      and data = { id, currentValue }
+//   evt = 'CLICKED'      and data = { id, oldValue, newValue }
 //   evt = 'DESTRUCTED'   and data = { id }
 //   evt = 'CONSTRUCTED'  and data = { id, setState } 
 //

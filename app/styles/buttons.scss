@@ -3,12 +3,11 @@
 
 .buttonView {
     height:100%;
-    
-    .firstButton {
-    }
+    @include flex-parent(column);
 
     .secondGroup {
-        height:400px;
+        @include flex-child(0,1);
+        height:370px;
         @include flex-parent(row);
 
         .secondGroupFirstMenu {
@@ -22,26 +21,91 @@
             position:relative;
             padding:0px;
             @include flex-parent(column);
-            .rightDemoButton {
+
+            .myrocker {
                 @include flex-child(0,1);
+                height:55px;
+            }
+            .rightDemoButton {
+                @include flex-child(0,2);
                 height:100px;
             }
             .rightDemoButton2 {
-                @include flex-child(0,2);
+                @include flex-child(0,3);
                 height:30px;
             }
             .rightDemoButton3 {
-                @include flex-child(0,3);
+                @include flex-child(0,4);
                 height:115px;
             }
             .rightDemoInfo {
-                @include flex-child(1,3);
+                @include flex-child(1,5);
                 p {
                     /* text fades in and fades out
                     // in the currentMessage area */
                     @include do-transition(opacity 1s);
                 }
             }
+        }
+    }
+
+    .thirdGroup {
+        @include flex-child(1,2);
+        @include flex-parent(column);
+        .modalWindow {
+            position:absolute;
+            top:-30px;
+            left:30px;
+            width:250px;
+            height:120px;
+            border-radius:30px;
+            box-shadow:inset 0 0 20px 15px rgba(255,255,255,0.2);
+            background-color: $navBgColor;
+            text-align: center;
+            padding-top:30px;
+            z-index:-100;
+            opacity:0;
+            @include do-transition(opacity 0.4s, z-index 1s);
+
+            &.open {
+                z-index:1000;
+                opacity:1;
+            }
+            .acceptButton {
+                position:absolute;
+                left:60px;
+                top:70px;
+                .typcn {
+                    color:green;
+                }
+            }
+            .cancelButton {
+                position:absolute;
+                left:120px;
+                top:70px;
+                .typcn {
+                    color:red;
+                }
+            }
+        }
+        .header {
+            @include flex-child(0,1);
+            height:40px;
+            .testModal {
+                left:0px;
+            }
+            .up {
+                left:180px;
+            }
+            .down {
+                left:310px;
+            }
+            .del {
+                left:450px;
+            }
+        }
+        .body {
+            @include flex-child(1,2);
         }
     }
 }
