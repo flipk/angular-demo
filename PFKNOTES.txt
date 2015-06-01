@@ -26,6 +26,7 @@ npm install -g generator-flux-webapp generator-gflux generator-react-flux
 npm install -g generator-react generator-react-6 generator-react-boilerplate
 npm install -g generator-react-component
 npm install -g generator-go
+npm install -g protobufjs
 
 bower install angular angular-animate angular-aria angular-bootstrap
 bower install angular-cookies angular-filter angular-messages angular-mocks
