@@ -37,15 +37,15 @@ function ($rootScope,   utilities) {
 ;
 
 	fileElem.bind('change', function(evt) {
-	    $rootScope.$apply(function() {
-		if (evt && evt.target && evt.target.files) {
-		    for (var ind = 0; ind < evt.target.files.length; ind++) {
-			gotAFile(evt.target.files[ind]);
-		    }
+            console.log('input tag change event fired');
+	    if (evt && evt.target && evt.target.files) {
+		for (var ind = 0; ind < evt.target.files.length; ind++) {
+		    gotAFile(evt.target.files[ind]);
 		}
-	    });
+	    }
 	});
 
+        console.log('clicking an input tag');
 	fileElem[0].click();
     };
 
@@ -70,16 +70,20 @@ function ($rootScope,   utilities) {
 	}
     };
 
-    $.fetchFront = function(file, callbackFn) {
+    $.blockSize = 512; // or 65536 or 1024*1024
+
+    $.fetchBlock = function(file, blockNum, callbackFn) {
         var fr = new FileReader();
         fr.onloadend = function(evt) {
-            $rootScope.$apply(function() {
-                callbackFn( 
-                    utilities.uint8ArrayToHex(
-                        new Uint8Array(evt.target.result)));
-            });
+            callbackFn(new Uint8Array(evt.target.result));
         };
-        fr.readAsArrayBuffer(file.slice(0,512));
+        fr.readAsArrayBuffer(file.slice(blockNum*$.blockSize,$.blockSize));
+    };
+
+    $.fetchFront = function(file, callbackFn) {
+        $.fetchBlock(file,0,function(data) {
+            callbackFn(utilities.uint8ArrayToHex(data));
+        });
     };
 
     return $;

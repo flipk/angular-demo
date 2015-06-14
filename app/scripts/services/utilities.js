@@ -103,7 +103,7 @@ function (/*$rootScope*/) {
             }
             count++;
         }
-        if ((count % 16) != 0) {
+        if ((count % 16) !== 0) {
             ret += '\n';
         }
         return ret;

@@ -251,7 +251,9 @@ function ($scope,   $interval,   pfkFiles) {
     }
 
     function gotAFile(file) {
-        $scope.fileList.push(new FileEntry(file));
+        $scope.$apply(function() {
+            $scope.fileList.push(new FileEntry(file));
+        });
     }
 
     $scope.uploadButton = function(evt) {
@@ -264,8 +266,10 @@ function ($scope,   $interval,   pfkFiles) {
         $scope.fileList.forEach(function(file) {
             if (file.selected) {
                 pfkFiles.fetchFront(file.file,function(data) {
-                    $scope.modalContents += 'file: ' + file.name + '\n';
-                    $scope.modalContents += data;
+                    $scope.$apply(function() {
+                        $scope.modalContents += 'file: ' + file.name + '\n';
+                        $scope.modalContents += data;
+                    });
                 });
             }
         });
