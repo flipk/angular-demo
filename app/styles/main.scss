@@ -218,8 +218,29 @@ body {
 /* Custom page footer */
 .footer {
     @include flex-child(0,3);
+    background: $navBgColor;
     color: #777;
-    border-top: 1px solid $footerBorder;
+    height:30px;
+    .typcn-arrow-right-thick {
+        position:absolute;
+        top:3px;
+        left:0px;
+    }
+    .pfk {
+        position:absolute;
+        top:4px;
+        left:17px;
+    }
+    .typcn-arrow-left-thick {
+        position:absolute;
+        top:3px;
+        left:46px;
+    }
+    .tagline {
+        position:absolute;
+        top:3px;
+        left:74px;
+    }
 }
 
 .aboutView {
