@@ -56,7 +56,9 @@
 
   <div class="thirdGroup">
     <div class="modalWindow" ng-class="{open:modalOpen}">
-      This is a modal.
+      <div class="modalContents">
+        <pre>{{modalContents}}</pre>
+      </div>
       <div class="acceptButton">
         <pfk-typcn-button typcn="tick" click="closeModal()">
         </pfk-typcn-button>
@@ -67,16 +69,18 @@
       </div>
     </div>
     <div class="header">
-      <div class="testModal">
-        <pfk-typcn-button typcn="message-typing" click="openModal()">
-          make a modal
-        </pfk-typcn-button>
-      </div>
+
       <div class="up">
         <pfk-typcn-button typcn="upload" click="uploadButton()">
           upload
         </pfk-typcn-button>
       </div> <!-- up -->
+
+      <div class="front">
+        <pfk-typcn-button typcn="edit" click="displayFront()">
+          display file front
+        </pfk-typcn-button>
+      </div>
 
       <div class="down">
         <pfk-typcn-button typcn="download" click="downloadButton()">

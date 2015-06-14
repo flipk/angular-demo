@@ -14,7 +14,9 @@ angular.module('angulardemoApp').service('utilities',
 function (/*$rootScope*/) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
-    var state = {
+    var $ = {};
+
+    $.state = {
         urlVars : {},
         windowSizeFuncs : []
     };
@@ -26,64 +28,90 @@ function (/*$rootScope*/) {
         for (var ind in vars) {
             var varval = vars[ind].split('=');
             if (varval.length === 1) {
-                state.urlVars[varval[0]] = true;
+                $.state.urlVars[varval[0]] = true;
             } else {
-                state.urlVars[varval[0]] = varval[1];
+                $.state.urlVars[varval[0]] = varval[1];
             }
         }
     }
 
-    function getView() {
+    $.getView = function () {
         var h = window.location.hash;
         if (h.length <= 2) {
             return '/';
         }
         return h.substr(1);
-    }
+    };
 
-    function getUrlVar(varName) {
-        return state.urlVars[varName];
-    }
+    $.getUrlVar = function (varName) {
+        return $.state.urlVars[varName];
+    };
 
-    function onWindowSize(func) {
-        for (var ind in state.windowSizeFuncs) {
-            if (state.windowSizeFuncs[ind] === null) {
-                state.windowSizeFuncs[ind] = func;
+    $.onWindowSize = function (func) {
+        for (var ind in $.state.windowSizeFuncs) {
+            if ($.state.windowSizeFuncs[ind] === null) {
+                $.state.windowSizeFuncs[ind] = func;
                 return;
             }
         }
-        state.windowSizeFuncs.push(func);
-    }
+        $.state.windowSizeFuncs.push(func);
+    };
 
-    function offWindowSize(func) {
-        for (var ind in state.windowSizeFuncs) {
-            if (state.windowSizeFuncs[ind] === func) {
-                state.windowSizeFuncs[ind] = null;
+    $.offWindowSize = function (func) {
+        for (var ind in $.state.windowSizeFuncs) {
+            if ($.state.windowSizeFuncs[ind] === func) {
+                $.state.windowSizeFuncs[ind] = null;
                 return;
             }
         }
-    }
+    };
 
     window.onresize = function() {
-        for (var ind in state.windowSizeFuncs) {
-            var func = state.windowSizeFuncs[ind];
+        for (var ind in $.state.windowSizeFuncs) {
+            var func = $.state.windowSizeFuncs[ind];
             if (func) {
                 func();
             }
         }
     };
 
-    var ret = {
-        state : state,
-        getView : getView,
-        getUrlVar : getUrlVar,
-        onWindowSize : onWindowSize,
-        offWindowSize : offWindowSize,
+    $.digitToHex = function(val) {
+        return '0123456789abcdef'[val];
     };
 
-    gUtilities = ret;
-    
-    return ret;
+    $.byteToHex = function(val) {
+        var upper = parseInt(val / 16);
+        var lower = val % 16;
+        return $.digitToHex(upper) + $.digitToHex(lower) + ' ';
+    };
+
+    $.uint8ArrayToHex = function(data) {
+        var ret = '';
+        var count = 0;
+        // uint8Array doesn't have many of the Array methods
+        for (var ind = 0; ind < data.length; ind++) {
+            var item = data[ind];
+            ret += $.byteToHex(item);
+            if ((count % 4) === 3) {
+                ret += ' ';
+            }
+            if ((count % 8) === 7) {
+                ret += ' ';
+            }
+            if ((count % 16) === 15) {
+                ret += '\n';
+            }
+            count++;
+        }
+        if ((count % 16) != 0) {
+            ret += '\n';
+        }
+        return ret;
+    };
+
+    gUtilities = $;
+
+    return $;
     
 }]);
 

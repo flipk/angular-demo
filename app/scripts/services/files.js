@@ -8,12 +8,14 @@
  * Service in the testappApp.
  */
 angular.module('angulardemoApp').service('pfkFiles',
-       [ '$rootScope',
-function ($rootScope) {
+       [ '$rootScope', 'utilities',
+function ($rootScope,   utilities) {
+
+    var $ = {};
 
     // this must be called in the context of some
     // widget's click-handler
-    function getFileFromUser(evt, gotAFile) {
+    $.getFileFromUser = function (evt, gotAFile) {
 	if (evt) {
 	    console.log('prevent default on',evt);
 	    evt.preventDefault();
@@ -45,9 +47,9 @@ function ($rootScope) {
 	});
 
 	fileElem[0].click();
-    }
+    };
 
-    function downloadFileToUser(file) {
+    $.downloadFileToUser = function (file) {
 	console.log('download file',file);
 
 	var blob = file.slice();
@@ -66,16 +68,22 @@ function ($rootScope) {
 	    anchorTag.download = file.name;
 	    anchorTag.click();
 	}
-
-    }
-
-    var ret = {
-	getFileFromUser: getFileFromUser,
-	downloadFileToUser: downloadFileToUser
     };
-    
-    return ret;
-    
+
+    $.fetchFront = function(file, callbackFn) {
+        var fr = new FileReader();
+        fr.onloadend = function(evt) {
+            $rootScope.$apply(function() {
+                callbackFn( 
+                    utilities.uint8ArrayToHex(
+                        new Uint8Array(evt.target.result)));
+            });
+        };
+        fr.readAsArrayBuffer(file.slice(0,512));
+    };
+
+    return $;
+
 }]);
 
 /*

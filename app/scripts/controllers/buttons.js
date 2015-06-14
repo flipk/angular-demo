@@ -238,9 +238,6 @@ function ($scope,   $interval,   pfkFiles) {
     $scope.closeModal = function() {
         $scope.modalOpen = false;
     };
-    $scope.openModal = function() {
-        $scope.modalOpen = true;
-    };
 
     $scope.fileList = [];
 
@@ -259,6 +256,19 @@ function ($scope,   $interval,   pfkFiles) {
 
     $scope.uploadButton = function(evt) {
         pfkFiles.getFileFromUser(evt, gotAFile);
+    };
+    $scope.modalContents = '';
+    $scope.displayFront = function() {
+        $scope.modalOpen = true;
+        $scope.modalContents = '';
+        $scope.fileList.forEach(function(file) {
+            if (file.selected) {
+                pfkFiles.fetchFront(file.file,function(data) {
+                    $scope.modalContents += 'file: ' + file.name + '\n';
+                    $scope.modalContents += data;
+                });
+            }
+        });
     };
     $scope.downloadButton = function() {
         $scope.fileList.forEach(function(file) {

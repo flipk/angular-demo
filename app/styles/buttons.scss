@@ -54,10 +54,10 @@
         @include flex-parent(column);
         .modalWindow {
             position:absolute;
-            top:-30px;
+            top:-360px;
             left:30px;
-            width:250px;
-            height:120px;
+            width:440px;
+            height:380px;
             border-radius:30px;
             box-shadow:inset 0 0 20px 15px rgba(255,255,255,0.2);
             background-color: $navBgColor;
@@ -65,16 +65,25 @@
             padding-top:30px;
             z-index:-100;
             opacity:0;
-            @include do-transition(opacity 0.4s, z-index 1s);
+            @include do-transition(opacity 0.4s);
 
             &.open {
                 z-index:1000;
                 opacity:1;
             }
+            .modalContents {
+                position:absolute;
+                left:25px;
+                top:25px;
+                width:400px;
+                height:300px;
+                text-align:left;
+                overflow-y:scroll;
+            }
             .acceptButton {
                 position:absolute;
                 left:60px;
-                top:70px;
+                top:340px;
                 .typcn {
                     color:green;
                 }
@@ -82,7 +91,7 @@
             .cancelButton {
                 position:absolute;
                 left:120px;
-                top:70px;
+                top:340px;
                 .typcn {
                     color:red;
                 }
@@ -91,17 +100,17 @@
         .header {
             @include flex-child(0,1);
             height:40px;
-            .testModal {
+            .up {
                 left:0px;
             }
-            .up {
-                left:180px;
+            .front {
+                left:125px;
             }
             .down {
-                left:310px;
+                left:365px;
             }
             .del {
-                left:450px;
+                left:510px;
             }
         }
         .body {
